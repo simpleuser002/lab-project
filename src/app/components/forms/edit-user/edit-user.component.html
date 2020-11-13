@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>Edit</h1>
+<mat-dialog-content>
+  <div *ngIf="user">
+    <form (ngSubmit)="editUser()">
+      <label>
+        username
+        <input type="text" [(ngModel)]="user.username" name="username" >
+      </label>
+      <label>
+        role
+        <input type="text" [(ngModel)]="user.role" name="role">
+      </label>
+      <label>
+        date of creation
+        <input type="text" [(ngModel)]="user.registrationDate" name="registrationDate">
+      </label>
+      <button>submit</button>
+    </form>
+  </div>
+</mat-dialog-content>
+
+
+<!--<div *ngIf="user">
+  {{user.id}}
+  {{user.username}}
+  {{user.role}}
+  {{user.registrationDate}}
+</div>-->
+
+

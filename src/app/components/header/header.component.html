@@ -1,0 +1,13 @@
+<mat-toolbar color="accent">
+  <mat-toolbar-row>
+      <span>Lab</span>
+      <div *ngIf="!currentUser">
+        <button (click)="openLoginForm()">Login</button>
+      </div>
+     <div *ngIf="currentUser">
+       {{currentUser.username}}
+       <button (click)="logout()">Logout</button>
+     </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+
