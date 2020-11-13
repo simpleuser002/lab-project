@@ -1,3 +1,5 @@
+import {Poll} from './poll';
+
 export class User {
   id?: number;
   username?: string;
@@ -5,4 +7,5 @@ export class User {
   token?: string;
   role?:string;
   registrationDate?:string;
+  polls?:Poll[]
 }

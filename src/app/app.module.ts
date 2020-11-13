@@ -18,6 +18,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { EditUserComponent } from './components/forms/edit-user/edit-user.component';
+import { MypollsComponent } from './components/mypolls/mypolls.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { EditUserComponent } from './components/forms/edit-user/edit-user.compon
     HomeComponent,
     UsersComponent,
     EditUserComponent,
+    MypollsComponent,
   ],
   imports: [
     BrowserModule,

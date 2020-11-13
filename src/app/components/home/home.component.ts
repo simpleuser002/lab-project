@@ -16,4 +16,8 @@ export class HomeComponent implements OnInit {
   goToUsers(){
     this.router.navigate(['/users']);
   }
+
+  goToPolls() {
+    this.router.navigate(['user/polls'])
+  }
 }

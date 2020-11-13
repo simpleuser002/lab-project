@@ -12,8 +12,10 @@ import {EditUserComponent} from '../forms/edit-user/edit-user.component';
   styleUrls: ['./users.component.sass']
 })
 export class UsersComponent implements OnInit {
+
   users: User[];
-  columns: string[] = ['username', 'password', 'role', 'registrationDate', 'actions'];
+  columns: string[] = ['username', 'password', 'role', 'registrationDate','polls', 'actions'];
+
   constructor(private userService: UserServiceService,
               private dialog: MatDialog) {
   }

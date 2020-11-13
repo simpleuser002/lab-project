@@ -7,7 +7,11 @@ import {element} from 'protractor';
 import {url} from 'inspector';
 
 
-const users: User[] = [{ id: 1, username: 'test', password: 'test', role: 'user', registrationDate: '19.02.2000' },
+const users: User[] = [{ id: 1, username: 'test', password: 'test', role: 'user', registrationDate: '19.02.2000', polls: [
+    {name: 'poll1', questions: [{name: 'q1', answer:[{name: 'a'}, {name: 'b'}]}, {name:'q2',answer:[{name: 'a'}] }]},
+    {name: 'poll2', questions: [{name: 'q1', answer:[{name: 'a'}, {name: 'b'}]}, {name:'q2',answer:[{name: 'a'}] }]}
+  ]
+  } ,
                               {id: 2, username: 'admin', password: 'admin', role: 'admin', registrationDate: '19.02.1992'},
                               {id: 3, username: 'user', password: 'user', role: 'user', registrationDate: '19.02.2001'}];
 localStorage.setItem('users', JSON.stringify(users));
@@ -35,6 +39,7 @@ export class Backend implements HttpInterceptor{
       switch (true) {
         case url.endsWith('/auth') && method === 'POST':
           return authenticate();
+
         case url.endsWith('/users') && method === 'GET':
           return getUsers();
         case url.endsWith('/user/edit') && method === 'PUT':
@@ -43,6 +48,10 @@ export class Backend implements HttpInterceptor{
           return getUserById();
         case url.match(/\/user\/delete\/\d+$/) && method === 'DELETE':
           return deleteUser();
+
+        case url.match(/\/polls\/\d+$/) && method === 'GET':
+          return getPollsById();
+
         default:
           // pass through any requests not handled above
           return next.handle(request);
@@ -107,6 +116,26 @@ export class Backend implements HttpInterceptor{
       localStorage.setItem('users', JSON.stringify(users));
       return ok(users);
     }
+
+
+
+
+    function getPollsById(){
+      let id = idFromUrl();
+      return ok(getFromLocalStorage().find(el =>{
+        if(el.id==id){
+          console.log(JSON.stringify(el.polls));
+          return ok(el.polls);
+        }
+      }).polls)
+
+
+
+    }
+
+
+
+
 
     function idFromUrl() {
       const urlParts = url.split('/');
