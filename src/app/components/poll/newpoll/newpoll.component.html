@@ -1,0 +1,47 @@
+<form [formGroup]="addPollForm">
+  <label>
+    poll name
+    <input type="text" formControlName="pollname">
+  </label>
+  <div formArrayName="questions">
+    <div *ngFor="let q of getQuestions(addPollForm); let i = index">
+      <div [formGroupName]="i">
+        <label>
+          question
+          <input type="text" formControlName="name">
+        </label>
+          <div formArrayName="answers">
+          <div *ngFor="let q of getAnswers(q); let j = index">
+            <div [formGroupName]="j">
+              <label *ngIf="clickEdit==false && !isTextQuestion">
+               <input [type]="isRadio?'radio':'checkbox'" value="true" formControlName="right">  answer
+              </label>
+              <div *ngIf="clickEdit && !isTextQuestion">
+                <input [type]="isRadio?'radio':'checkbox'" value="true" formControlName="right"> <input type="text" formControlName="name" value="answer {{j}}">
+              </div>
+              <div *ngIf="isTextQuestion">
+                <angular-editor id="editor1" formControlName="name" [config]="editorConfig"></angular-editor>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <button (click)="addAnswer(i)">add answer</button>
+      <button (click)="changeQuestion(i)">change</button>
+      <br>
+      <br>
+    </div>
+
+  </div>
+
+  <button (click)="addQuestion()">add question</button>
+  <br>
+  <button (click)="addCheckBoxQuestion()">add checkbox question</button>
+  <br>
+  <button (click)="addTextQuestion()">add text question</button>
+  <br>
+  <br>
+  <button (click)="addNewPoll()">save poll</button>
+</form>

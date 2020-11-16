@@ -20,4 +20,8 @@ export class HomeComponent implements OnInit {
   goToPolls() {
     this.router.navigate(['user/polls'])
   }
+
+  goToNewPoll() {
+    this.router.navigate(['user/polls/new'])
+  }
 }

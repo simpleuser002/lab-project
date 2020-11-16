@@ -1,6 +1,6 @@
 import {Question} from './question';
 
 export class Poll {
-  name?:string;
+  pollname?:string;
   questions?:Question[];
 }

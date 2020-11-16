@@ -6,7 +6,7 @@
       <span *ngIf="col!=='answers'">{{element[col]}}</span>
       <span *ngIf="col=='answers'">
          <span *ngFor="let question of element[col]">
-          {{question.answer.name}}
+          {{question.answer.length}}
          </span>
       </span>
 

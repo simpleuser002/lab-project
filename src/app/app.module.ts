@@ -18,7 +18,9 @@ import {MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { EditUserComponent } from './components/forms/edit-user/edit-user.component';
-import { MypollsComponent } from './components/mypolls/mypolls.component';
+import { MypollsComponent } from './components/poll/mypolls/mypolls.component';
+import { NewpollComponent } from './components/poll/newpoll/newpoll.component';
+import {AngularEditorModule} from '@kolkov/angular-editor';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { MypollsComponent } from './components/mypolls/mypolls.component';
     UsersComponent,
     EditUserComponent,
     MypollsComponent,
+    NewpollComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ import { MypollsComponent } from './components/mypolls/mypolls.component';
     HttpClientModule,
     MatTableModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    AngularEditorModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

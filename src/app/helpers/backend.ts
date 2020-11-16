@@ -8,12 +8,12 @@ import {url} from 'inspector';
 
 
 const users: User[] = [{ id: 1, username: 'test', password: 'test', role: 'user', registrationDate: '19.02.2000', polls: [
-    {name: 'poll1', questions: [{name: 'q1', answer:[{name: 'a'}, {name: 'b'}]}, {name:'q2',answer:[{name: 'a'}] }]},
-    {name: 'poll2', questions: [{name: 'q1', answer:[{name: 'a'}, {name: 'b'}]}, {name:'q2',answer:[{name: 'a'}] }]}
+    {pollname: 'poll1', questions: [{name: 'q1', answers:[{name: 'a'}, {name: 'b'}]}, {name:'q2',answers:[{name: 'a'}] }]},
+    {pollname: 'poll2', questions: [{name: 'q1', answers:[{name: 'a'}, {name: 'b'}]}, {name:'q2',answers:[{name: 'a'}] }]}
   ]
   } ,
-                              {id: 2, username: 'admin', password: 'admin', role: 'admin', registrationDate: '19.02.1992'},
-                              {id: 3, username: 'user', password: 'user', role: 'user', registrationDate: '19.02.2001'}];
+                              {id: 2, username: 'admin', password: 'admin', role: 'admin', registrationDate: '19.02.1992', polls: []},
+                              {id: 3, username: 'user', password: 'user', role: 'user', registrationDate: '19.02.2001', polls: []}];
 localStorage.setItem('users', JSON.stringify(users));
 
 
@@ -51,6 +51,9 @@ export class Backend implements HttpInterceptor{
 
         case url.match(/\/polls\/\d+$/) && method === 'GET':
           return getPollsById();
+        case url.match(/\/polls\/new\/\d+$/) && method === 'POST':
+          return addNewPoll();
+
 
         default:
           // pass through any requests not handled above
@@ -128,9 +131,22 @@ export class Backend implements HttpInterceptor{
           return ok(el.polls);
         }
       }).polls)
+    }
 
-
-
+    function addNewPoll(){
+    let id = idFromUrl();
+    let poll = body;
+    let users: User[] = [];
+    users=getFromLocalStorage();
+    users.forEach((user) => {
+      if(user.id==id){
+        console.log(user.polls)
+       user.polls.push(poll) ;
+      }
+    })
+      localStorage.setItem('users', JSON.stringify(users));
+    console.log(JSON.stringify(users));
+    return ok('')
     }
 
 

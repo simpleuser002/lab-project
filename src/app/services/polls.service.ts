@@ -13,4 +13,8 @@ export class PollsService {
   getAllPollsById(id: string){
     return this.http.get<any>(`${environment.url}/polls/${id}`)
   }
+
+  addNewPoll(poll: any, id: any){
+    return this.http.post<any>(`${environment.url}/polls/new/${id}`, poll);
+  }
 }
