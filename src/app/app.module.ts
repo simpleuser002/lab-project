@@ -21,6 +21,9 @@ import { EditUserComponent } from './components/forms/edit-user/edit-user.compon
 import { MypollsComponent } from './components/poll/mypolls/mypolls.component';
 import { NewpollComponent } from './components/poll/newpoll/newpoll.component';
 import {AngularEditorModule} from '@kolkov/angular-editor';
+import {MatSliderModule} from '@angular/material/slider';
+import {RatingModule} from 'ng-starrating';
+
 
 @NgModule({
   declarations: [
@@ -46,7 +49,9 @@ import {AngularEditorModule} from '@kolkov/angular-editor';
     MatTableModule,
     MatButtonModule,
     MatIconModule,
-    AngularEditorModule
+    AngularEditorModule,
+    MatSliderModule,
+    RatingModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

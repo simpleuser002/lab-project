@@ -1,3 +1,4 @@
+<!--
 <form [formGroup]="addPollForm">
   <label>
     poll name
@@ -6,14 +7,14 @@
   <div formArrayName="questions">
     <div *ngFor="let q of getQuestions(addPollForm); let i = index">
       <div [formGroupName]="i">
-        <label>
+        <label *ngIf="isRadio">
           question
           <input type="text" formControlName="name">
         </label>
           <div formArrayName="answers">
-          <div *ngFor="let q of getAnswers(q); let j = index">
+          <div *ngFor="let a of getAnswers(q); let j = index">
             <div [formGroupName]="j">
-              <label *ngIf="clickEdit==false && !isTextQuestion">
+              <label *ngIf="clickEdit==false && !isTextQuestion && !isSlideQuestion && !isStarQuestion &&isRadio">
                <input [type]="isRadio?'radio':'checkbox'" value="true" formControlName="right">  answer
               </label>
               <div *ngIf="clickEdit && !isTextQuestion">
@@ -21,6 +22,14 @@
               </div>
               <div *ngIf="isTextQuestion">
                 <angular-editor id="editor1" formControlName="name" [config]="editorConfig"></angular-editor>
+              </div>
+              <div *ngIf="isSlideQuestion">
+                <label>{{value}}</label>
+                <mat-slider [max]="max" [min]="min" [thumbLabel]="thumbLabel" [(ngModel)]="value" formControlName="name" ></mat-slider>
+              </div>
+              <div *ngIf="isStarQuestion">
+              &lt;!&ndash;  <star-rating-comp [starType]="'icon'" [step]="0.5" [raiting]="2" ngDefaultControl  formControlName="name"></star-rating-comp>&ndash;&gt;
+                <star-rating value="5" [totalstars]="5" checkedcolor="orange" uncheckedcolor="yellow" size="24px" readonly="false"  (rate)="onRate($event)" ngDefaultControl formControlName="name"></star-rating>
               </div>
             </div>
           </div>
@@ -41,6 +50,52 @@
   <button (click)="addCheckBoxQuestion()">add checkbox question</button>
   <br>
   <button (click)="addTextQuestion()">add text question</button>
+  <br>
+  <button (click)="addSlideQuestion()">add slider question</button>
+  <br>
+  <button (click)="addStarQuestion()">add star question</button>
+  <br>
+  <br>
+  <button (click)="addNewPoll()">save poll</button>
+</form>
+-->
+
+
+<form [formGroup]="addPollForm">
+  <label>
+    poll name
+    <input type="text" formControlName="pollname">
+  </label>
+  <div formArrayName="questions">
+    <div *ngFor="let q of getQuestions(addPollForm); let i = index">
+      <div [formGroupName]="i">
+        <label *ngIf="q.name=='radio'">
+          question {{getQuestions(addPollForm)[i].type}}
+          <input type="text" formControlName="name">
+        </label>
+        <div formArrayName="answers">
+          <div *ngFor="let a of getAnswers(q); let j = index">
+            <div [formGroupName]="j">
+              <label *ngIf="clickEdit==false && !isTextQuestion && !isSlideQuestion && !isStarQuestion &&isRadio">
+                <input [type]="isRadio?'radio':'checkbox'" value="true" formControlName="right">  answer
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <button (click)="addAnswer(i)">add answer</button>
+      <button (click)="addQuestion(i)">add question</button>
+      <br>
+      <br>
+    </div>
+
+  </div>
+
+
+  <br>
+
   <br>
   <br>
   <button (click)="addNewPoll()">save poll</button>

@@ -11,8 +11,15 @@ import {AngularEditorConfig} from '@kolkov/angular-editor';
 export class NewpollComponent implements OnInit {
   addPollForm: FormGroup;
   clickEdit: boolean = false;
-  isRadio: boolean = true;
+  isRadio: boolean = false;
   isTextQuestion: boolean = false;
+  isSlideQuestion: boolean = false;
+   isStarQuestion: boolean = false;
+
+  max = 100;
+  min = 0;
+  value = 0;
+  thumbLabel = true;
 
   editorConfig: AngularEditorConfig = {
     editable: true,
@@ -60,6 +67,7 @@ export class NewpollComponent implements OnInit {
     ]
   };
 
+
   constructor(private pollService: PollsService) {
     this.addPollForm = new FormGroup({
       pollname: new FormControl(''),
@@ -73,6 +81,7 @@ export class NewpollComponent implements OnInit {
   initQuestions(){
     return new FormGroup({
       name: new FormControl(''),
+      type: new FormControl(''),
       answers: new FormArray([this.initAnswers()])
     })
   }
@@ -97,8 +106,13 @@ export class NewpollComponent implements OnInit {
     this.pollService.addNewPoll(this.formControls.value, 3).subscribe();
   }
 
-  addQuestion(){
-    (<FormArray>this.addPollForm.controls['questions']).push(this.initQuestions());
+  addQuestion(i){
+   // console.log(this.addPollForm.get('questions').controls[i].get('name').value);
+     //this.addPollForm.patchValue({pollname: 'd'})
+    this.addPollForm.controls.questions.controls[i].patchValue({type: 'radio'})
+   // console.log(this.getQuestions(this.addPollForm))
+ //   console.log(this.addPollForm.controls);
+   (<FormArray>this.addPollForm.controls['questions']).push(this.initQuestions());
   }
 
   getAnswers(form: any) {
@@ -116,7 +130,7 @@ export class NewpollComponent implements OnInit {
     this.clickEdit=true;
   }
 
-  addCheckBoxQuestion(){
+  /*addCheckBoxQuestion(){
     this.isRadio=false;
     this.addQuestion();
   }
@@ -124,5 +138,22 @@ export class NewpollComponent implements OnInit {
   addTextQuestion() {
     this.isTextQuestion=true;
     this.addQuestion();
+  }
+
+  addSlideQuestion() {
+    this.isSlideQuestion=true;
+    this.addQuestion();
+  }
+
+  addStarQuestion() {
+    this.isStarQuestion=true;
+    this.addQuestion();
+  }*/
+
+  onRate($event:{oldValue:number, newValue:number}) {
+   // this.addPollForm.get(['questions',i,'answers',j]).setValue($event.newValue)
+
+    console.log(`Old Value:${$event.oldValue},
+      New Value: ${$event.newValue}`);
   }
 }
