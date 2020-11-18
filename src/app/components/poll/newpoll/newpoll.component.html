@@ -69,15 +69,23 @@
   <div formArrayName="questions">
     <div *ngFor="let q of getQuestions(addPollForm); let i = index">
       <div [formGroupName]="i">
-        <label *ngIf="q.name=='radio'">
-          question {{getQuestions(addPollForm)[i].type}}
+        <label *ngIf="addPollForm.get('questions').value[i].type=='radio' || addPollForm.get('questions').value[i].type=='checkbox'">
+          question
           <input type="text" formControlName="name">
         </label>
         <div formArrayName="answers">
           <div *ngFor="let a of getAnswers(q); let j = index">
             <div [formGroupName]="j">
-              <label *ngIf="clickEdit==false && !isTextQuestion && !isSlideQuestion && !isStarQuestion &&isRadio">
-                <input [type]="isRadio?'radio':'checkbox'" value="true" formControlName="right">  answer
+              <label *ngIf="addPollForm.get('questions').value[i].type=='radio'" >
+                <input type="radio" value="t" formControlName="right" >  answer
+                <br>
+                <input type="radio" value="r" formControlName="right" >  answer
+                <br>
+                <input type="radio" value="u" formControlName="right" >  answer
+                <br>
+              </label>
+              <label *ngIf="addPollForm.get('questions').value[i].type=='checkbox'">
+                <input type="checkbox" value="true" formControlName="right" >  answer
               </label>
             </div>
           </div>
@@ -86,7 +94,7 @@
 
 
       <button (click)="addAnswer(i)">add answer</button>
-      <button (click)="addQuestion(i)">add question</button>
+
       <br>
       <br>
     </div>
@@ -95,7 +103,9 @@
 
 
   <br>
-
+  <button (click)="addQuestion()">add question</button>
+  <br>
+  <button (click)="addCheckBoxQuestion()">add checkbox question</button>
   <br>
   <br>
   <button (click)="addNewPoll()">save poll</button>
