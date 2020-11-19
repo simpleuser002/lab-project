@@ -23,6 +23,7 @@
     "@angular/router": "~10.2.0",
     "@kolkov/angular-editor": "^1.1.4",
     "css-star-rating": "^1.2.4",
+    "file-saver": "^2.0.5",
     "ng-starrating": "^1.0.20",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

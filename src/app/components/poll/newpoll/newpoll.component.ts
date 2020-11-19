@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormArray, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {PollsService} from '../../../services/polls.service';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
+import {UploadService} from '../../../services/upload.service';
 
 @Component({
   selector: 'app-newpoll',
@@ -15,6 +16,9 @@ export class NewpollComponent implements OnInit {
   isTextQuestion: boolean = false;
   isSlideQuestion: boolean = false;
    isStarQuestion: boolean = false;
+
+   currentSelected:number=0;
+   previousSelected:number=0;
 
   max = 100;
   min = 0;
@@ -70,7 +74,7 @@ export class NewpollComponent implements OnInit {
   ind;
 
 
-  constructor(private pollService: PollsService) {
+  constructor(private pollService: PollsService, private uploadService: UploadService) {
     this.addPollForm = new FormGroup({
       pollname: new FormControl(''),
       questions: new FormArray([])
@@ -100,6 +104,30 @@ export class NewpollComponent implements OnInit {
           type: new FormControl('checkbox'),
           answers: new FormArray([this.initAnswers()])
         })
+      case 'text':
+        return new FormGroup({
+          name: new FormControl(''),
+          type: new FormControl('text'),
+          answers: new FormArray([this.initAnswers()])
+        })
+      case 'slider':
+        return new FormGroup({
+          name: new FormControl(''),
+          type: new FormControl('slider'),
+          answers: new FormArray([this.initAnswers()])
+        })
+      case 'star':
+        return new FormGroup({
+          name: new FormControl(''),
+          type: new FormControl('star'),
+          answers: new FormArray([this.initAnswers()])
+        })
+      case 'file':
+        return new FormGroup({
+          name: new FormControl(''),
+          type: new FormControl('file'),
+          answers: new FormArray([this.initAnswers()])
+        })
       default:
         return new FormGroup({
           name: new FormControl(''),
@@ -121,7 +149,7 @@ export class NewpollComponent implements OnInit {
   initAnswers(){
     return new FormGroup({
       name: new FormControl('answer'),
-      right: new FormControl(false, Validators.requiredTrue),
+      right: new FormControl('false', Validators.requiredTrue),
     })
   }
 
@@ -171,57 +199,57 @@ export class NewpollComponent implements OnInit {
  addCheckBoxQuestion(){
    (<FormArray>this.addPollForm.controls['questions']).push(this.initQuestions('checkbox'));
   }
- /*
+
   addTextQuestion() {
-    this.isTextQuestion=true;
-    this.addQuestion();
+    (<FormArray>this.addPollForm.controls['questions']).push(this.initQuestions('text'));
   }
 
   addSlideQuestion() {
-    this.isSlideQuestion=true;
-    this.addQuestion();
+    (<FormArray>this.addPollForm.controls['questions']).push(this.initQuestions('slider'));
   }
 
   addStarQuestion() {
-    this.isStarQuestion=true;
-    this.addQuestion();
-  }*/
+    (<FormArray>this.addPollForm.controls['questions']).push(this.initQuestions('star'));
+  }
 
-  onRate($event:{oldValue:number, newValue:number}) {
+  addFileQuestion() {
+    (<FormArray>this.addPollForm.controls['questions']).push(this.initQuestions('file'));
+  }
+
+  onRate($event:{oldValue:number, newValue:number}, i:number) {
    // this.addPollForm.get(['questions',i,'answers',j]).setValue($event.newValue)
 
     console.log(`Old Value:${$event.oldValue},
       New Value: ${$event.newValue}`);
+
+    this.addPollForm.get(['questions', i, 'answers', 0, 'right']).setValue($event.newValue);
   }
 
-  trackByMethod(index, item){
-    return this.index = index;
-  }
 
-  minSelectedCheckboxes(min = 1) {
-    const validator: ValidatorFn = (formArray: FormArray) => {
-      console.log(formArray.controls)
-      const totalSelected = formArray.controls
-
-        // get a list of checkbox values (boolean)
-        .map(control => control.value)
-        // total up the number of checked checkboxes
-        .reduce((prev, next) => next ? prev + next : prev, 0);
-
-      // if the total is not greater than the minimum, return the error message
-      return totalSelected >= min ? null : { required: true };
-    };
-
-    return validator;
-  }
-
-/*  handleChange(evt) {
-    var target = evt.target;
-    if (target.checked) {
-      doSelected(target);
-      this._prevSelected = target;
-    } else {
-      doUnSelected(this._prevSelected)
+  selected(i:number, j: number) {
+    this.currentSelected=j;
+    if(this.previousSelected!=this.currentSelected){
+      this.addPollForm.get(['questions', i, 'answers', this.previousSelected, 'right']).setValue('false');
+      this.previousSelected=this.currentSelected;
     }
-  }*/
+        console.log(i,j)
+  }
+
+  onFileChange($event: Event, i:number) {
+    console.log('sd')
+    if((<HTMLInputElement>$event.target).files.length>0){
+      const file = (<HTMLInputElement>$event.target).files[0];
+      this.addPollForm.get(['questions', i, 'answers', 0, 'right']).setValue(file.name);
+    }
+    this.uploadFile(i)
+  }
+
+  uploadFile(i){
+    const formData= new FormData();
+    formData.append('file', this.addPollForm.get(['questions', i, 'answers', 0, 'right']).value )
+
+      this.uploadService.upload(formData).subscribe(()=>console.log('created'))
+
+
+  }
 }

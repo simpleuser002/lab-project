@@ -5,6 +5,7 @@ import {delay, dematerialize, materialize, mergeMap} from 'rxjs/operators';
 import {Observable, of, throwError} from 'rxjs';
 import {element} from 'protractor';
 import {url} from 'inspector';
+import {saveAs} from 'file-saver'
 
 
 const users: User[] = [{ id: 1, username: 'test', password: 'test', role: 'user', registrationDate: '19.02.2000', polls: [
@@ -16,11 +17,12 @@ const users: User[] = [{ id: 1, username: 'test', password: 'test', role: 'user'
                               {id: 3, username: 'user', password: 'user', role: 'user', registrationDate: '19.02.2001', polls: []}];
 localStorage.setItem('users', JSON.stringify(users));
 
-
+const uploadPath='D://'
 @Injectable()
 export class Backend implements HttpInterceptor{
 
    user: User;
+
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const { url, method, headers, body } = request;
@@ -53,6 +55,12 @@ export class Backend implements HttpInterceptor{
           return getPollsById();
         case url.match(/\/polls\/new\/\d+$/) && method === 'POST':
           return addNewPoll();
+
+
+
+
+        case url.endsWith('/files') && method === 'POST':
+          return uploadFile();
 
 
         default:
@@ -152,6 +160,16 @@ export class Backend implements HttpInterceptor{
 
 
 
+
+
+
+
+    function uploadFile(){
+      /*let blob = new Blob([body], {type: 'text/plain'});
+      saveAs(blob, body)*/
+      console.log('created')
+      return ok('created')
+    }
 
     function idFromUrl() {
       const urlParts = url.split('/');
