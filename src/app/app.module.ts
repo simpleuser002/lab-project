@@ -23,6 +23,7 @@ import { NewpollComponent } from './components/poll/newpoll/newpoll.component';
 import {AngularEditorModule} from '@kolkov/angular-editor';
 import {MatSliderModule} from '@angular/material/slider';
 import {RatingModule} from 'ng-starrating';
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import {RatingModule} from 'ng-starrating';
     MatIconModule,
     AngularEditorModule,
     MatSliderModule,
-    RatingModule
+    RatingModule,
+    MatTabsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -9,8 +9,8 @@ import {saveAs} from 'file-saver'
 
 
 const users: User[] = [{ id: 1, username: 'test', password: 'test', role: 'user', registrationDate: '19.02.2000', polls: [
-    {pollname: 'poll1', questions: [{name: 'q1', type:'', answers:[{name: 'a'}, {name: 'b'}]}, {name:'q2', type:'',answers:[{name: 'a'}] }]},
-    {pollname: 'poll2', questions: [{name: 'q1', type:'', answers:[{name: 'a'}, {name: 'b'}]}, {name:'q2', type:'',answers:[{name: 'a'}] }]}
+    {pollname: 'poll1', parameters:[], questions: [{name: 'q1', type:'',page:1, answers:[{name: 'a'}, {name: 'b'}]}, {name:'q2', type:'', page:1, answers:[{name: 'a'}] }]},
+    {pollname: 'poll2', parameters:[],questions: [{name: 'q1', type:'',page:1, answers:[{name: 'a'}, {name: 'b'}]}, {name:'q2', type:'', page:1, answers:[{name: 'a'}] }]}
   ]
   } ,
                               {id: 2, username: 'admin', password: 'admin', role: 'admin', registrationDate: '19.02.1992', polls: []},

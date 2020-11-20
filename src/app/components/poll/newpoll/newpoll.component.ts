@@ -20,6 +20,10 @@ export class NewpollComponent implements OnInit {
    currentSelected:number=0;
    previousSelected:number=0;
 
+  isSelected=new FormControl(0);
+   tabs=['page '];
+
+
   max = 100;
   min = 0;
   value = 0;
@@ -72,13 +76,16 @@ export class NewpollComponent implements OnInit {
   };
   private index: any;
   ind;
+   params = ['anon', 'num_q', 'num_p', 'random_q', 'req_star', 'indicator']
 
 
   constructor(private pollService: PollsService, private uploadService: UploadService) {
     this.addPollForm = new FormGroup({
       pollname: new FormControl(''),
+      parameters: new FormArray([]),
       questions: new FormArray([])
-    })
+    });
+    this.initParams();
   }
 
   ngOnInit(): void {
@@ -90,48 +97,56 @@ export class NewpollComponent implements OnInit {
         return new FormGroup({
           name: new FormControl(''),
           type: new FormControl(''),
+          page:new FormControl(this.isSelected.value),
           answers: new FormArray([this.initAnswers()])
         })
       case 'radio':
         return new FormGroup({
           name: new FormControl(''),
           type: new FormControl('radio'),
+          page:new FormControl(this.isSelected.value),
           answers: new FormArray([this.initAnswers()])
         })
       case 'checkbox':
         return new FormGroup({
           name: new FormControl(''),
           type: new FormControl('checkbox'),
+          page:new FormControl(this.isSelected.value),
           answers: new FormArray([this.initAnswers()])
         })
       case 'text':
         return new FormGroup({
           name: new FormControl(''),
           type: new FormControl('text'),
+          page:new FormControl(this.isSelected.value),
           answers: new FormArray([this.initAnswers()])
         })
       case 'slider':
         return new FormGroup({
           name: new FormControl(''),
           type: new FormControl('slider'),
+          page:new FormControl(this.isSelected.value),
           answers: new FormArray([this.initAnswers()])
         })
       case 'star':
         return new FormGroup({
           name: new FormControl(''),
           type: new FormControl('star'),
+          page:new FormControl(this.isSelected.value),
           answers: new FormArray([this.initAnswers()])
         })
       case 'file':
         return new FormGroup({
           name: new FormControl(''),
           type: new FormControl('file'),
+          page:new FormControl(this.isSelected.value),
           answers: new FormArray([this.initAnswers()])
         })
       default:
         return new FormGroup({
           name: new FormControl(''),
           type: new FormControl('r'),
+          page:new FormControl(this.isSelected.value),
           answers: new FormArray([this.initAnswers()])
         })
     }
@@ -153,12 +168,29 @@ export class NewpollComponent implements OnInit {
     })
   }
 
+  initParameters(p){
+    return  new FormGroup({
+      name: new FormControl(p),
+      status: new FormControl(false)
+    })
+  }
+
+  initParams(){
+      this.params.forEach(p=>{
+        (<FormArray>this.addPollForm.controls['parameters']).push(this.initParameters(p))
+    })
+  }
+
   get formControls(){
     return this.addPollForm;
   }
 
   getQuestions(form){
     return form.controls.questions.controls;
+  }
+
+  getParameters(form){
+    return form.controls.parameters.controls;
   }
 
   addNewPoll(){
@@ -173,7 +205,10 @@ export class NewpollComponent implements OnInit {
      //this.addPollForm.patchValue({pollname: 'd'})
    // console.log(this.index);
     (<FormArray>this.addPollForm.controls['questions']).push(this.initQuestions('radio'));
+    console.log(this.addPollForm.get('questions'));
     console.log(this.addPollForm.get(['questions']).value[0].type);
+   // this.addPollForm.get(['questions', i, 'answers', this.previousSelected, 'right']).setValue('false');
+
    //   this.addPollForm.get(['questions', 0]).patchValue({type: 'rrrr'})
    // this.addPollForm.get(['questions', i]).patchValue({type: 'radio'})
    // console.log(this.getQuestions(this.addPollForm))
@@ -251,5 +286,37 @@ export class NewpollComponent implements OnInit {
       this.uploadService.upload(formData).subscribe(()=>console.log('created'))
 
 
+  }
+
+
+  addTab(){
+    this.tabs.push('page' + this.isSelected.value)
+      this.isSelected.setValue(this.tabs.length -1 )
+    console.log(this.isSelected.value)
+    console.log(this.tabs)
+  }
+
+  removeTab(index: number){
+    console.log(index)
+
+
+    console.log(this.tabs)
+    this.addPollForm.get('questions').value.forEach(q=>{
+      if(q.page==index ){
+   (<FormArray>this.addPollForm.get('questions')).removeAt(1)
+        console.log(q)
+      }
+      if (index!=0 || this.tabs.length-1 !=index){
+        q--;
+      }
+    });
+    /* this.addPollForm.get('questions').value.forEach(q=>{
+          if (index!=0 || this.tabs.length-1 !=index){
+            q--;
+          }
+        });*/
+
+    this.tabs.splice(index, 1);
+  console.log(this.addPollForm.get('questions'))
   }
 }

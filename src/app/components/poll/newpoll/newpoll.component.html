@@ -59,15 +59,20 @@
   <button (click)="addNewPoll()">save poll</button>
 </form>
 -->
+<button (click)="addTab()">add tab</button>
+<mat-tab-group [selectedIndex]="isSelected.value" (selectedIndexChange)="isSelected.setValue($event)" animationDuration="0ms">
 
-
+  <mat-tab *ngFor="let tab of tabs; let t=index" [label]="tab">
+    {{isSelected.value}}
 <form [formGroup]="addPollForm">
   <label>
     poll name
     <input type="text" formControlName="pollname">
+    <div>questions {{getQuestions(addPollForm).length}}</div>
   </label>
   <div formArrayName="questions">
     <div *ngFor="let q of getQuestions(addPollForm); let i = index">
+    <div  *ngIf="isSelected.value==addPollForm.get(['questions', i, 'page']).value">
       <div [formGroupName]="i">
         <label *ngIf="addPollForm.get('questions').value[i].type!=''">
           question
@@ -112,7 +117,7 @@
       <br>
       <br>
     </div>
-
+    </div>
   </div>
 
 
@@ -131,5 +136,46 @@
   <br>
   <br>
   <br>
-  <button (click)="addNewPoll()">save poll</button>
+
+  <div formArrayName="parameters">
+    <div *ngFor="let param of getParameters(addPollForm); let p = index">
+      <div [formGroupName]="p">
+        <label>{{addPollForm.get('parameters').value[p].name}}
+          <input type="checkbox" formControlName="status"  >
+        </label>
+        <br>
+       <!-- <label>question numbers
+          <input type="checkbox" formControlName="name" value="num_q">
+        </label>
+        <br>
+        <label>page numbers
+          <input type="checkbox" formControlName="name" value="num_p">
+        </label>
+        <br>
+        <label> random qustions
+          <input type="checkbox" formControlName="name" value="rand_q">
+        </label>
+        <br>
+        <label>require stars
+          <input type="checkbox" formControlName="name" value="req_stars">
+        </label>
+        <br>
+        <label> indicator
+          <input type="checkbox" formControlName="name" value="indicator">
+        </label>
+        <br>-->
+      </div>
+      </div>
+  </div>
+
+
+
 </form>
+
+
+
+
+    <button (click)="addNewPoll()">save poll</button>
+    <button [disabled]="tab.length==1" (click)="removeTab(t)">delete tab</button>
+  </mat-tab>
+</mat-tab-group>
