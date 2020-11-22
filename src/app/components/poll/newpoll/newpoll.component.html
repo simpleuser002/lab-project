@@ -60,11 +60,12 @@
 </form>
 -->
 <button (click)="addTab()">add tab</button>
-<mat-tab-group [selectedIndex]="isSelected.value" (selectedIndexChange)="isSelected.setValue($event)" animationDuration="0ms">
 
-  <mat-tab *ngFor="let tab of tabs; let t=index" [label]="tab">
     {{isSelected.value}}
 <form [formGroup]="addPollForm">
+  <mat-tab-group [selectedIndex]="isSelected.value" (selectedIndexChange)="isSelected.setValue($event)" animationDuration="0ms">
+
+    <mat-tab *ngFor="let tab of tabs; let t=index" [label]="tab">
   <label>
     poll name
     <input type="text" formControlName="pollname">
@@ -75,8 +76,8 @@
     <div  *ngIf="isSelected.value==addPollForm.get(['questions', i, 'page']).value">
       <div [formGroupName]="i">
         <label *ngIf="addPollForm.get('questions').value[i].type!=''">
-          question
-          <input type="text" formControlName="name">
+         <span *ngIf="isNumberQuestions==true">{{i + 1}}</span> question
+      <input type="text" formControlName="name">
         </label>
         <div formArrayName="answers">
           <div *ngFor="let a of getAnswers(q); let j = index">
@@ -137,12 +138,7 @@
   <br>
   <br>
 
-  <div formArrayName="parameters">
-    <div *ngFor="let param of getParameters(addPollForm); let p = index">
-      <div [formGroupName]="p">
-        <label>{{addPollForm.get('parameters').value[p].name}}
-          <input type="checkbox" formControlName="status"  >
-        </label>
+
         <br>
        <!-- <label>question numbers
           <input type="checkbox" formControlName="name" value="num_q">
@@ -164,18 +160,28 @@
           <input type="checkbox" formControlName="name" value="indicator">
         </label>
         <br>-->
+
+
+      <button (click)="addNewPoll()">save poll</button>
+      <button [disabled]="tab.length==1" (click)="removeTab(t)">delete tab</button>
+
+  </mat-tab>
+</mat-tab-group>
+  <div formArrayName="parameters">
+    <div *ngFor="let param of getParameters(addPollForm); let p = index">
+      <div [formGroupName]="p">
+        <label>{{addPollForm.get('parameters').value[p].name}}
+          <input type="checkbox" formControlName="status" (change)="checkForParameters($event)" >
+        </label>
       </div>
-      </div>
+    </div>
   </div>
 
-
-
+  <mat-progress-bar mode="determinate" [value]="10"></mat-progress-bar>
 </form>
 
 
 
 
-    <button (click)="addNewPoll()">save poll</button>
-    <button [disabled]="tab.length==1" (click)="removeTab(t)">delete tab</button>
-  </mat-tab>
-</mat-tab-group>
+
+

@@ -17,6 +17,12 @@ export class NewpollComponent implements OnInit {
   isSlideQuestion: boolean = false;
    isStarQuestion: boolean = false;
 
+   isNumberQuestions: boolean = false;
+   isRandomQuestions: boolean  = false;
+   isNumberPage: boolean = false;
+   isRequiredStar: boolean= false;
+   isIndicator: boolean = false;
+
    currentSelected:number=0;
    previousSelected:number=0;
 
@@ -318,5 +324,30 @@ export class NewpollComponent implements OnInit {
 
     this.tabs.splice(index, 1);
   console.log(this.addPollForm.get('questions'))
+  }
+
+  checkForParameters(event: Event){
+
+this.isNumberQuestions=true;
+     this.addPollForm.get('parameters').value.forEach(p=> {
+       console.log(p.status)
+       switch (p.name) {
+         case 'num_q':
+          return  this.isNumberQuestions = p.status == true;
+
+         case 'num_p':
+           return  this.isNumberPage = p.status == true;
+
+         case 'random_q':
+           return  this.isRandomQuestions = p.status == true;
+
+         case 'req_star':
+           return  this.isRequiredStar = p.status == true;
+
+         case 'indicator':
+           return  this.isIndicator = p.status == true;
+
+       }
+     })
   }
 }

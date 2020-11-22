@@ -24,6 +24,7 @@ import {AngularEditorModule} from '@kolkov/angular-editor';
 import {MatSliderModule} from '@angular/material/slider';
 import {RatingModule} from 'ng-starrating';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     AngularEditorModule,
     MatSliderModule,
     RatingModule,
-    MatTabsModule
+    MatTabsModule,
+    MatProgressBarModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
