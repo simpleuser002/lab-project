@@ -77,7 +77,7 @@
       <div [formGroupName]="i">
         <label *ngIf="addPollForm.get('questions').value[i].type!=''">
          <span *ngIf="isNumberQuestions==true">{{i + 1}}</span> question
-      <input type="text" formControlName="name">
+      <input type="text" formControlName="name"><input type="checkbox" formControlName="mandatory"> mandatory
         </label>
         <div formArrayName="answers">
           <div *ngFor="let a of getAnswers(q); let j = index">
@@ -176,9 +176,11 @@
       </div>
     </div>
   </div>
+  <div *ngIf="isIndicator==true">
+    <mat-progress-bar   mode="determinate" [value]="((isSelected.value+1)*100)/[(tabs.length)]"></mat-progress-bar>
+  </div>
 
-  <mat-progress-bar mode="determinate" [value]="10"></mat-progress-bar>
-</form>
+  </form>
 
 
 

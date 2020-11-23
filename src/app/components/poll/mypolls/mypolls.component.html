@@ -2,18 +2,22 @@
   <ng-container [matColumnDef]="col" *ngFor="let col of columns">
     <th mat-header-cell *matHeaderCellDef> {{col}}</th>
     <td mat-cell *matCellDef="let element">
-
+     <!-- <span>{{element[col]}}</span>-->
       <span *ngIf="col!=='answers'">{{element[col]}}</span>
       <span *ngIf="col=='answers'">
-         <span *ngFor="let question of element[col]">
+      <!--   <span *ngFor="let question of element[col]">
           {{question.answer.length}}
-         </span>
+         </span>-->
       </span>
+      <span *ngIf="col=='reference'">
+           <button (click)="setReference(element.pollname)">generate reference</button>
+        </span>
 
   <!--    <span *ngIf="col=='actions'">
             <button (click)="openEditForm(element.id)">edit</button>
            <button (click)="deleteUser(element.id)">delete</button>
         </span>-->
+
     </td>
   </ng-container>
 

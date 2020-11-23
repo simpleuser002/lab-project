@@ -6,11 +6,13 @@ import {Observable, of, throwError} from 'rxjs';
 import {element} from 'protractor';
 import {url} from 'inspector';
 import {saveAs} from 'file-saver'
+import {Poll} from '../models/poll';
 
 
 const users: User[] = [{ id: 1, username: 'test', password: 'test', role: 'user', registrationDate: '19.02.2000', polls: [
-    {pollname: 'poll1', parameters:[], questions: [{name: 'q1', type:'',page:1, answers:[{name: 'a'}, {name: 'b'}]}, {name:'q2', type:'', page:1, answers:[{name: 'a'}] }]},
-    {pollname: 'poll2', parameters:[],questions: [{name: 'q1', type:'',page:1, answers:[{name: 'a'}, {name: 'b'}]}, {name:'q2', type:'', page:1, answers:[{name: 'a'}] }]}
+    {pollname: 'poll1', parameters:[], reference:'', questions: [{name: 'q1', type:'',page:1, mandatory:false, answers:[{name: 'a'}, {name: 'b'}]}, {name:'q2', type:'', mandatory:false, page:1, answers:[{name: 'a'}] }]},
+    {pollname: 'poll2', parameters:[], reference:'qwerty' ,questions: [{name: 'q1', type:'radio',page:1, mandatory:true, answers:[{name: 'a', right:'true'}, {name: 'b', right: 'false'}]}, {name:'q2', type:'checkbox', mandatory:true, page:1, answers:[{name: 'a', right: 'true'},
+          {name: 'b', right: 'false'},{name: 'c', right: 'true'},{name: 'd', right: 'false'},{name: 'e', right: 'true'}] }]}
   ]
   } ,
                               {id: 2, username: 'admin', password: 'admin', role: 'admin', registrationDate: '19.02.1992', polls: []},
@@ -55,6 +57,10 @@ export class Backend implements HttpInterceptor{
           return getPollsById();
         case url.match(/\/polls\/new\/\d+$/) && method === 'POST':
           return addNewPoll();
+        case url.match(/\/poll\/ref\/\d+$/) && method === 'POST':
+          return setReference();
+        case url.match(/\/poll\/ref\/\w+$/) && method === 'GET':
+          return getByReference();
 
 
 
@@ -158,7 +164,38 @@ export class Backend implements HttpInterceptor{
     }
 
 
+    function setReference(){
+      console.log(body)
+       let users = getFromLocalStorage();
+      users.forEach((user) => {
+        if(user.id==idFromUrl()){
+          console.log(idFromUrl())
+         user.polls.forEach((p)=>{
+           if(p.pollname==body.name){
+             p.reference=body.ref;
+           }
+         })
+        }
+      })
+      localStorage.setItem('users', JSON.stringify(users));
+      console.log(JSON.stringify(users));
+      return ok(users)
+    }
 
+    function getByReference(){
+      let poll: Poll=null;
+      let users = getFromLocalStorage();
+      users.forEach((user) => {
+          user.polls.forEach((p)=>{
+            if(p.reference==refFromUrl()){
+             poll=p;
+             console.log(poll)
+            }
+          })
+
+      })
+      return ok(poll)
+    }
 
 
 
@@ -175,6 +212,12 @@ export class Backend implements HttpInterceptor{
       const urlParts = url.split('/');
       return parseInt(urlParts[urlParts.length - 1]);
     }
+
+    function refFromUrl() {
+      const urlParts = url.split('/');
+      return urlParts[urlParts.length - 1];
+    }
+
 
     function getFromLocalStorage(){
       return JSON.parse(localStorage.getItem('users'));

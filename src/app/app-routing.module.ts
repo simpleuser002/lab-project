@@ -9,6 +9,7 @@ import {UsersComponent} from './components/users/users.component';
 import {EditUserComponent} from './components/forms/edit-user/edit-user.component';
 import {MypollsComponent} from './components/poll/mypolls/mypolls.component';
 import {NewpollComponent} from './components/poll/newpoll/newpoll.component';
+import {PollComponent} from './components/poll/poll/poll.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent, canActivate: [AuthGuardService]},
@@ -16,7 +17,8 @@ const routes: Routes = [
   {path: 'users', component: UsersComponent},
   {path: 'user/edit', component: EditUserComponent},
   {path: 'user/polls', component: MypollsComponent},
-  {path: 'user/polls/new', component: NewpollComponent}
+  {path: 'user/polls/new', component: NewpollComponent},
+  {path: 'poll/ref', component: PollComponent}
 ];
 
 @NgModule({

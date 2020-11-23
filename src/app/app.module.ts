@@ -25,6 +25,7 @@ import {MatSliderModule} from '@angular/material/slider';
 import {RatingModule} from 'ng-starrating';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import { PollComponent } from './components/poll/poll/poll.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     EditUserComponent,
     MypollsComponent,
     NewpollComponent,
+    PollComponent,
   ],
   imports: [
     BrowserModule,

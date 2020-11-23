@@ -4,5 +4,6 @@ import {Parameter} from './parameter';
 export class Poll {
   pollname?:string;
   questions?:Question[];
-  parameters: Parameter[]
+  parameters: Parameter[];
+  reference?:string;
 }

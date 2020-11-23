@@ -5,4 +5,5 @@ export class Question {
   answers?:Answer[];
   type: string;
   page:number;
+  mandatory?:boolean;
 }

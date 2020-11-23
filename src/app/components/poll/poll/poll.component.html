@@ -1,0 +1,61 @@
+
+<form [formGroup]="pollForm">
+      <label>
+        {{poll.pollname}}
+        <div>questions {{poll.questions.length}}</div>
+      </label>
+      <div formArrayName="questions">
+        <div *ngFor="let q of poll.questions; let i = index">
+          <div>
+            <div [formGroupName]="i">
+                <span *ngIf="isNumberQuestions==true">{{i + 1}}</span> question
+              <div formArrayName="answers">
+                <div *ngFor="let a of q.answers; let j = index">
+                  <div [formGroupName]="j">
+                    <label>
+                      <input type="radio" value="true" formControlName="right" (change)="selected(i,j)" name="right">  answer
+                      <br>
+                    </label>
+                    <!--<label *ngIf="pollForm.get('questions').value[i].type=='checkbox'">
+                      <input type="checkbox" value="true" formControlName="right" >  answer
+                    </label>-->
+
+                    <!--  <div *ngIf="clickEdit && !isTextQuestion">
+                        <input [type]="isRadio?'radio':'checkbox'" value="true" formControlName="right"> <input type="text" formControlName="name" value="answer {{j}}">
+                      </div>-->
+                    <!--<div *ngIf="pollForm.get('questions').value[i].type=='text'">
+                      <angular-editor id="editor1" formControlName="right" [config]="editorConfig"></angular-editor>
+                    </div>
+                    <div *ngIf="pollForm.get('questions').value[i].type=='slider'">
+                      <label>{{value}}</label>
+                      <mat-slider [max]="max" [min]="min" [thumbLabel]="thumbLabel" [(ngModel)]="value" formControlName="right" ></mat-slider>
+                    </div>
+                    <div *ngIf="pollForm.get('questions').value[i].type=='star'">
+                      <star-rating-comp [starType]="'icon'" [step]="1" [raiting]="2" ngDefaultControl  formControlName="right"></star-rating-comp>
+                      <star-rating value="5" [totalstars]="5" checkedcolor="orange" uncheckedcolor="yellow" size="24px" readonly="false"  (rate)="onRate($event, i)" ngDefaultControl formControlName="name"></star-rating>
+                    </div>-->
+                    <!--<div *ngIf="pollForm.get('questions').value[i].type=='file'">
+                      <input type="file"  (change)="onFileChange($event, i)">
+                    </div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <br>
+            <br>
+          </div>
+        </div>
+      </div>
+
+
+      <br>
+
+      <button (click)="saveResults()">save poll</button>
+
+
+ <!-- <div *ngIf="isIndicator==true">
+    <mat-progress-bar   mode="determinate" [value]="((isSelected.value+1)*100)/[(tabs.length)]"></mat-progress-bar>
+  </div>-->
+
+</form>

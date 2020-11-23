@@ -82,7 +82,7 @@ export class NewpollComponent implements OnInit {
   };
   private index: any;
   ind;
-   params = ['anon', 'num_q', 'num_p', 'random_q', 'req_star', 'indicator']
+   params = ['anon', 'num_q', 'num_p', 'random_q', 'req_star', 'indicate']
 
 
   constructor(private pollService: PollsService, private uploadService: UploadService) {
@@ -104,6 +104,7 @@ export class NewpollComponent implements OnInit {
           name: new FormControl(''),
           type: new FormControl(''),
           page:new FormControl(this.isSelected.value),
+          mandatory: new FormControl(false),
           answers: new FormArray([this.initAnswers()])
         })
       case 'radio':
@@ -111,6 +112,7 @@ export class NewpollComponent implements OnInit {
           name: new FormControl(''),
           type: new FormControl('radio'),
           page:new FormControl(this.isSelected.value),
+          mandatory: new FormControl(false),
           answers: new FormArray([this.initAnswers()])
         })
       case 'checkbox':
@@ -118,6 +120,7 @@ export class NewpollComponent implements OnInit {
           name: new FormControl(''),
           type: new FormControl('checkbox'),
           page:new FormControl(this.isSelected.value),
+          mandatory: new FormControl(false),
           answers: new FormArray([this.initAnswers()])
         })
       case 'text':
@@ -125,6 +128,7 @@ export class NewpollComponent implements OnInit {
           name: new FormControl(''),
           type: new FormControl('text'),
           page:new FormControl(this.isSelected.value),
+          mandatory: new FormControl(false),
           answers: new FormArray([this.initAnswers()])
         })
       case 'slider':
@@ -132,6 +136,7 @@ export class NewpollComponent implements OnInit {
           name: new FormControl(''),
           type: new FormControl('slider'),
           page:new FormControl(this.isSelected.value),
+          mandatory: new FormControl(false),
           answers: new FormArray([this.initAnswers()])
         })
       case 'star':
@@ -139,6 +144,7 @@ export class NewpollComponent implements OnInit {
           name: new FormControl(''),
           type: new FormControl('star'),
           page:new FormControl(this.isSelected.value),
+          mandatory: new FormControl(false),
           answers: new FormArray([this.initAnswers()])
         })
       case 'file':
@@ -146,6 +152,7 @@ export class NewpollComponent implements OnInit {
           name: new FormControl(''),
           type: new FormControl('file'),
           page:new FormControl(this.isSelected.value),
+          mandatory: new FormControl(false),
           answers: new FormArray([this.initAnswers()])
         })
       default:
@@ -153,19 +160,20 @@ export class NewpollComponent implements OnInit {
           name: new FormControl(''),
           type: new FormControl('r'),
           page:new FormControl(this.isSelected.value),
+          mandatory: new FormControl(false),
           answers: new FormArray([this.initAnswers()])
         })
     }
 
   }
 
-  initRadioQuestion(){
+ /* initRadioQuestion(){
     return new FormGroup({
       name: new FormControl(''),
       type: new FormControl(''),
       answers: new FormArray([this.initAnswers()])
     })
-  }
+  }*/
 
   initAnswers(){
     return new FormGroup({
@@ -302,18 +310,18 @@ export class NewpollComponent implements OnInit {
     console.log(this.tabs)
   }
 
+
   removeTab(index: number){
     console.log(index)
-
 
     console.log(this.tabs)
     this.addPollForm.get('questions').value.forEach(q=>{
       if(q.page==index ){
-   (<FormArray>this.addPollForm.get('questions')).removeAt(1)
+   (<FormArray>this.addPollForm.get('questions')).removeAt(q.page)
         console.log(q)
       }
-      if (index!=0 || this.tabs.length-1 !=index){
-        q--;
+      if (q.page>index){
+        q.page--;
       }
     });
     /* this.addPollForm.get('questions').value.forEach(q=>{
@@ -323,7 +331,9 @@ export class NewpollComponent implements OnInit {
         });*/
 
     this.tabs.splice(index, 1);
+    console.log(this.tabs )
   console.log(this.addPollForm.get('questions'))
+    console.log(this.isSelected.value)
   }
 
   checkForParameters(event: Event){
@@ -344,10 +354,24 @@ this.isNumberQuestions=true;
          case 'req_star':
            return  this.isRequiredStar = p.status == true;
 
-         case 'indicator':
+         case 'indicate':
            return  this.isIndicator = p.status == true;
-
        }
      })
+  }
+
+  shuffleQuestions(array){
+    let currentIndex = array.length, temporaryValue, randomIndex;
+    while (0 !== currentIndex) {
+
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
   }
 }
