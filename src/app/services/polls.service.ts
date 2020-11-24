@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
+import {Observable} from 'rxjs';
+import {Poll} from '../models/poll';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +20,8 @@ export class PollsService {
     return this.http.post<any>(`${environment.url}/polls/new/${id}`, poll);
   }
 
-  getByReference(){
-    return this.http.get<any>(`${environment.url}/poll/ref/qwerty`)
+  getByReference(ref: string): Observable<any>{
+    return this.http.get<any>(`${environment.url}/poll/ref/${ref}`, )
   }
 
 

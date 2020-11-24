@@ -18,7 +18,7 @@ const routes: Routes = [
   {path: 'user/edit', component: EditUserComponent},
   {path: 'user/polls', component: MypollsComponent},
   {path: 'user/polls/new', component: NewpollComponent},
-  {path: 'poll/ref', component: PollComponent}
+  {path: 'poll/ref/:reference', component: PollComponent}
 ];
 
 @NgModule({

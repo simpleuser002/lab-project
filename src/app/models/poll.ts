@@ -6,4 +6,5 @@ export class Poll {
   questions?:Question[];
   parameters: Parameter[];
   reference?:string;
+  pages?:number;
 }

@@ -89,7 +89,8 @@ export class NewpollComponent implements OnInit {
     this.addPollForm = new FormGroup({
       pollname: new FormControl(''),
       parameters: new FormArray([]),
-      questions: new FormArray([])
+      questions: new FormArray([]),
+      pages: new FormControl('')
     });
     this.initParams();
   }
@@ -209,6 +210,7 @@ export class NewpollComponent implements OnInit {
 
   addNewPoll(){
     console.log(this.formControls.value)
+    this.addPollForm.get('pages').setValue(this.tabs.length)
     this.pollService.addNewPoll(this.formControls.value, 3).subscribe();
   }
 
@@ -360,18 +362,4 @@ this.isNumberQuestions=true;
      })
   }
 
-  shuffleQuestions(array){
-    let currentIndex = array.length, temporaryValue, randomIndex;
-    while (0 !== currentIndex) {
-
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-  }
 }

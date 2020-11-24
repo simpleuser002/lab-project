@@ -10,9 +10,41 @@ import {Poll} from '../models/poll';
 
 
 const users: User[] = [{ id: 1, username: 'test', password: 'test', role: 'user', registrationDate: '19.02.2000', polls: [
-    {pollname: 'poll1', parameters:[], reference:'', questions: [{name: 'q1', type:'',page:1, mandatory:false, answers:[{name: 'a'}, {name: 'b'}]}, {name:'q2', type:'', mandatory:false, page:1, answers:[{name: 'a'}] }]},
-    {pollname: 'poll2', parameters:[], reference:'qwerty' ,questions: [{name: 'q1', type:'radio',page:1, mandatory:true, answers:[{name: 'a', right:'true'}, {name: 'b', right: 'false'}]}, {name:'q2', type:'checkbox', mandatory:true, page:1, answers:[{name: 'a', right: 'true'},
-          {name: 'b', right: 'false'},{name: 'c', right: 'true'},{name: 'd', right: 'false'},{name: 'e', right: 'true'}] }]}
+    {pollname: 'poll1',
+      parameters:[],
+      reference:'',
+      questions: [{name: 'q1', type:'',page:1, mandatory:false,
+                                answers:[{name: 'a', right: 'true'},
+                                        {name: 'b', right: 'false'}]},
+                  {name:'q2', type:'', mandatory:false, page:1,
+                              answers:[{name: 'a'}] }]},
+    {pollname: 'poll2',
+      pages : 3,
+      parameters:[{"name":"anon","status":false},
+                  {"name":"num_q","status":true},
+                  {"name":"num_p","status":false},
+                  {"name":"random_q","status":true},
+                  {"name":"req_star","status":true},
+                  {"name":"indicate","status":true}],
+      reference:'qwerty',
+      questions: [{name: 'q1', type:'radio',page:0, mandatory:true,
+                             answers:[{name: 'a', right:'true'},
+                                      {name: 'b', right: 'false'}]},
+                  {name:'q2', type:'checkbox', mandatory:true, page:0,
+                             answers:[{name: 'a', right: 'true'},
+                                      {name: 'b', right: 'false'},
+                                       {name: 'c', right: 'true'},
+                                       {name: 'd', right: 'false'},
+                                       {name: 'e', right: 'true'}]},
+                {name: 'q3', type: 'text', page:1, mandatory: false,
+                            answers: [{name: '', right: '<u>kdfg d fjgjdfjgkdfjgkljdfg</u>'}]},
+                 {name: 'q4', type: 'slider', page:1, mandatory: false,
+                            answers: [{name: '', right: 23}]},
+                  {name: 'q5', type: 'star', page:2, mandatory: false,
+                    answers: [{name: '', right: 3}]},
+
+
+      ]}
   ]
   } ,
                               {id: 2, username: 'admin', password: 'admin', role: 'admin', registrationDate: '19.02.1992', polls: []},
