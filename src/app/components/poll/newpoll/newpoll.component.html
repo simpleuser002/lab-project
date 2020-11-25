@@ -64,7 +64,6 @@
     {{isSelected.value}}
 <form [formGroup]="addPollForm">
   <mat-tab-group [selectedIndex]="isSelected.value" (selectedIndexChange)="isSelected.setValue($event)" animationDuration="0ms">
-
     <mat-tab *ngFor="let tab of tabs; let t=index" [label]="tab">
   <label>
     poll name

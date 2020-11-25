@@ -1,0 +1,49 @@
+<div *ngIf="poll">
+  {{poll.pollname}}
+  <br>
+  <!--всего ответили {{interviewedCount}}-->
+  <br>
+ вопросов  {{poll.questions.length}}  страниц {{allPages}}
+  <br>
+  <mat-tab-group [selectedIndex]="isSelected.value" (selectedIndexChange)="isSelected.setValue($event)" animationDuration="0ms">
+    <mat-tab *ngFor="let tab of pages; let t=index" [label]="tab">
+      <div *ngFor="let q of poll.questions">
+
+        <div *ngIf="tab==q.page">
+          {{q.name}}
+<br>
+
+          <div>
+            <div>
+              <div style="display: block">
+                <canvas baseChart
+                        [datasets]="barChartData"
+                        [labels]="barChartLabels"
+                        [options]="barChartOptions"
+                        [legend]="barChartLegend"
+                        [chartType]="barChartType">
+                </canvas>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div *ngFor="let a of q.answers; let i = index">
+                Ответ {{i+1}}  ответов {{a.total}}
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+    </mat-tab>
+  </mat-tab-group>
+</div>
+

@@ -120,18 +120,19 @@ export class PollComponent implements OnInit {
         type: new FormControl(q.type),
         page:new FormControl(q.page),
         mandatory: new FormControl(q.mandatory),
-        answers: new FormArray([])
+        answers: new FormArray([]),
+        interviewed: new FormArray([this.initInterviewed()])
       })
   }
 
   initQ(questions: any){
-
     for (let i = 0; i < questions.length; i++) {
       (<FormArray>this.pollForm.controls['questions']).push(this.initQuestions(questions[i]));
       for (let j = 0; j <questions[i].answers.length; j++) {
-        (<FormArray>this.pollForm.get(['questions', i, 'answers'])).push(this.initAnswers());
+        (<FormArray>this.pollForm.get(['questions', i, 'interviewed', 0, 'answers'])).push(this.initAnswers());
       }
     }
+    console.log(this.pollForm)
   }
 
 
@@ -139,6 +140,13 @@ export class PollComponent implements OnInit {
     return new FormGroup({
       name: new FormControl('answer'),
       right: new FormControl('false', Validators.requiredTrue),
+    })
+  }
+
+  initInterviewed(){
+    return new FormGroup({
+      username: new FormControl('anon'),
+      answers: new FormArray([])
     })
   }
 
@@ -173,8 +181,14 @@ export class PollComponent implements OnInit {
     return form.controls.answers.controls;
   }
 
-  saveResults() {
+  getInterviewed(form: any){
+    return form.controls.interviewed.controls;
+  }
 
+  saveResults() {
+    console.log(this.formControls.value)
+    // this.pollForm.get('pages').setValue(this.tabs.length)
+    this.pollService.addNewPoll(this.pollForm.value, 3).subscribe();
   }
 
   selected(i: number, j: number) {
@@ -188,7 +202,7 @@ export class PollComponent implements OnInit {
     console.log(`Old Value:${$event.oldValue},
       New Value: ${$event.newValue}`);
 
-    this.pollForm.get(['questions', i, 'answers', 0, 'right']).setValue($event.newValue);
+    this.pollForm.get(['questions', i, 'interviewed', 0, 'answers', 0, 'right']).setValue($event.newValue);
   }
 
 
@@ -208,7 +222,12 @@ export class PollComponent implements OnInit {
   }
 
   nextPage(){
-    this.currentPage++;
+    if (this.pages-1!=this.currentPage){
+      this.currentPage++;
+    }else {
+      this.currentPage;
+    }
+
   }
 
   previousPage(){
@@ -217,6 +236,10 @@ export class PollComponent implements OnInit {
     }else{
       this.currentPage;
     }
-
   }
+
+  get formControls(){
+    return this.pollForm;
+  }
+
 }

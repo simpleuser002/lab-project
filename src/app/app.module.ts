@@ -26,6 +26,8 @@ import {RatingModule} from 'ng-starrating';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import { PollComponent } from './components/poll/poll/poll.component';
+import { PollResultsComponent } from './components/poll/poll-results/poll-results.component';
+import {ChartsModule} from 'ng2-charts';
 
 
 @NgModule({
@@ -40,25 +42,27 @@ import { PollComponent } from './components/poll/poll/poll.component';
     MypollsComponent,
     NewpollComponent,
     PollComponent,
+    PollResultsComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatDialogModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    AngularEditorModule,
-    MatSliderModule,
-    RatingModule,
-    MatTabsModule,
-    MatProgressBarModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatDialogModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        MatTableModule,
+        MatButtonModule,
+        MatIconModule,
+        AngularEditorModule,
+        MatSliderModule,
+        RatingModule,
+        MatTabsModule,
+        MatProgressBarModule,
+        ChartsModule
+    ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     /*{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },*/

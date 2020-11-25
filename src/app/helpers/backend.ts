@@ -14,34 +14,67 @@ const users: User[] = [{ id: 1, username: 'test', password: 'test', role: 'user'
       parameters:[],
       reference:'',
       questions: [{name: 'q1', type:'',page:1, mandatory:false,
-                                answers:[{name: 'a', right: 'true'},
-                                        {name: 'b', right: 'false'}]},
+                                answers:[{name: 'a', right: 'true', total: 0},
+                                        {name: 'b', right: 'false', total: 0}],
+                                          interviewed:[]},
                   {name:'q2', type:'', mandatory:false, page:1,
-                              answers:[{name: 'a'}] }]},
+                              answers:[{name: 'a', total: 0}], interviewed: [] }],},
     {pollname: 'poll2',
       pages : 3,
       parameters:[{"name":"anon","status":false},
                   {"name":"num_q","status":true},
                   {"name":"num_p","status":false},
-                  {"name":"random_q","status":true},
+                  {"name":"random_q","status":false},
                   {"name":"req_star","status":true},
                   {"name":"indicate","status":true}],
       reference:'qwerty',
       questions: [{name: 'q1', type:'radio',page:0, mandatory:true,
-                             answers:[{name: 'a', right:'true'},
-                                      {name: 'b', right: 'false'}]},
+                             answers:[{name: 'a', right:'true' ,total:1},
+                                      {name: 'b', right: 'false', total: 2}],
+                                        interviewed: [{username: 'anon', answers:[
+                                            {name: 'a', right:'false'},
+                                            {name: 'b', right: 'true'}]},
+                                          {username: 'anon', answers:[
+                                              {name: 'a', right:'true'},
+                                              {name: 'b', right: 'false'}]},
+                                          {username: 'anon', answers:[
+                                              {name: 'a', right:'false'},
+                                              {name: 'b', right: 'true'}]}
+                                                    ]},
+
                   {name:'q2', type:'checkbox', mandatory:true, page:0,
-                             answers:[{name: 'a', right: 'true'},
-                                      {name: 'b', right: 'false'},
-                                       {name: 'c', right: 'true'},
-                                       {name: 'd', right: 'false'},
-                                       {name: 'e', right: 'true'}]},
+                             answers:[{name: 'a', right: 'true',total:1},
+                                      {name: 'b', right: 'false',total:2},
+                                       {name: 'c', right: 'true',total:2},
+                                       {name: 'd', right: 'false',total:1},
+                                       {name: 'e', right: 'true',total:3}],
+                                        interviewed: [{username: 'anon', answers:[
+                                            {name: 'a', right:'false'},
+                                            {name: 'b', right: 'true'},
+                                            {name: 'c', right: 'true'},
+                                            {name: 'd', right: 'false'},
+                                            {name: 'e', right: 'true'}]},
+                                          {username: 'anon', answers:[
+                                              {name: 'a', right:'true'},
+                                              {name: 'b', right: 'true'},
+                                              {name: 'c', right: 'false'},
+                                              {name: 'd', right: 'false'},
+                                              {name: 'e', right: 'true'}]},
+                                          {username: 'anon', answers:[
+                                              {name: 'a', right:'false'},
+                                              {name: 'b', right: 'false'},
+                                              {name: 'c', right: 'true'},
+                                              {name: 'd', right: 'true'},
+                                              {name: 'e', right: 'true'}]}]},
                 {name: 'q3', type: 'text', page:1, mandatory: false,
-                            answers: [{name: '', right: '<u>kdfg d fjgjdfjgkdfjgkljdfg</u>'}]},
+                            answers: [{name: '', right: '<u>kdfg d fjgjdfjgkdfjgkljdfg</u>',total:0}],
+                                          interviewed: []},
                  {name: 'q4', type: 'slider', page:1, mandatory: false,
-                            answers: [{name: '', right: 23}]},
+                            answers: [{name: '', right: 23,total:0}],
+                                      interviewed: []},
                   {name: 'q5', type: 'star', page:2, mandatory: false,
-                    answers: [{name: '', right: 3}]},
+                    answers: [{name: '', right: 3,total:0}],
+                                      interviewed: []},
 
 
       ]}
@@ -93,6 +126,8 @@ export class Backend implements HttpInterceptor{
           return setReference();
         case url.match(/\/poll\/ref\/\w+$/) && method === 'GET':
           return getByReference();
+        case url.match(/\/poll\/\d+\/\w+$/) && method === 'GET':
+          return getPollById();
 
 
 
@@ -219,7 +254,7 @@ export class Backend implements HttpInterceptor{
       let users = getFromLocalStorage();
       users.forEach((user) => {
           user.polls.forEach((p)=>{
-            if(p.reference==refFromUrl()){
+            if(p.reference==stringFromUrl()){
              poll=p;
              console.log(poll)
             }
@@ -229,6 +264,27 @@ export class Backend implements HttpInterceptor{
       return ok(poll)
     }
 
+
+    function  getPollById(){
+     let users=getFromLocalStorage();
+     let pollname=stringFromUrl();
+     let poll=null;
+     users.forEach(u=>{
+       if (u.id==idFromUrl2()){
+         u.polls.forEach(p=>{
+           if (p.pollname==pollname){
+             poll=p;
+           }
+         })
+       }
+     })
+      console.log(poll)
+      return ok(poll)
+    }
+
+
+
+//todo save total answers
 
 
 
@@ -245,7 +301,12 @@ export class Backend implements HttpInterceptor{
       return parseInt(urlParts[urlParts.length - 1]);
     }
 
-    function refFromUrl() {
+    function idFromUrl2() {
+      const urlParts = url.split('/');
+      return parseInt(urlParts[urlParts.length - 2]);
+    }
+
+    function stringFromUrl() {
       const urlParts = url.split('/');
       return urlParts[urlParts.length - 1];
     }

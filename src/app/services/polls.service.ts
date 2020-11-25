@@ -16,12 +16,16 @@ export class PollsService {
     return this.http.get<any>(`${environment.url}/polls/${id}`)
   }
 
+  getPollById(id, pollname): Observable<any>{
+    return this.http.get<Poll>(`${environment.url}/poll/${id}/${pollname}`)
+  }
+
   addNewPoll(poll: any, id: any){
     return this.http.post<any>(`${environment.url}/polls/new/${id}`, poll);
   }
 
   getByReference(ref: string): Observable<any>{
-    return this.http.get<any>(`${environment.url}/poll/ref/${ref}`, )
+    return this.http.get<any>(`${environment.url}/poll/ref/${ref}`)
   }
 
 

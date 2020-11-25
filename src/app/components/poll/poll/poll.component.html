@@ -12,37 +12,46 @@
             <div [formGroupName]="i">
                 <span *ngIf="isNumberQuestions==true">{{i + 1}}</span> question {{pollForm.get(['questions', i, 'name']).value}}
               <span *ngIf="isRequiredStar && pollForm.get(['questions', i, 'mandatory']).value==true">*</span>
-              <div formArrayName="answers">
-                <div *ngFor="let a of getAnswers(q); let j = index">
-                  <div [formGroupName]="j">
-                    <label *ngIf="pollForm.get(['questions', i, 'type']).value=='radio'">
-                      <input type="radio" value="true" formControlName="right" (change)="selected(i,j)" name="right">  answer
-                      <br>
-                    </label>
-                    <label *ngIf="pollForm.get('questions').value[i].type=='checkbox'">
-                      <input type="checkbox" value="true" formControlName="right" >  answer
-                    </label>
+              <div formArrayName="interviewed">
+                <div *ngFor="let interviewed of getInterviewed(q); let inter = index">
+                  <div [formGroupName]="inter">
+                    <div formArrayName="answers">
+                      <div *ngFor="let a of getAnswers(interviewed); let j = index">
+                        <div [formGroupName]="j">
+                          <label *ngIf="pollForm.get(['questions', i, 'type']).value=='radio'">
+                            <input type="radio" value="true" formControlName="right" (change)="selected(i,j)" name="right">  answer
+                            <br>
+                          </label>
+                          <label *ngIf="pollForm.get('questions').value[i].type=='checkbox'">
+                            <input type="checkbox" value="true" formControlName="right" >  answer
+                          </label>
 
-                    <!--  <div *ngIf="clickEdit && !isTextQuestion">
-                        <input [type]="isRadio?'radio':'checkbox'" value="true" formControlName="right"> <input type="text" formControlName="name" value="answer {{j}}">
-                      </div>-->
-                    <div *ngIf="pollForm.get('questions').value[i].type=='text'">
-                      <angular-editor id="editor1" formControlName="right" [config]="editorConfig"></angular-editor>
+                          <!--  <div *ngIf="clickEdit && !isTextQuestion">
+                              <input [type]="isRadio?'radio':'checkbox'" value="true" formControlName="right"> <input type="text" formControlName="name" value="answer {{j}}">
+                            </div>-->
+                          <div *ngIf="pollForm.get('questions').value[i].type=='text'">
+                            <angular-editor id="editor1" formControlName="right" [config]="editorConfig"></angular-editor>
+                          </div>
+                          <div *ngIf="pollForm.get('questions').value[i].type=='slider'">
+                            <label>{{value}}</label>
+                            <mat-slider [max]="max" [min]="min" [thumbLabel]="thumbLabel" [(ngModel)]="value" formControlName="right" ></mat-slider>
+                          </div>
+                          <div *ngIf="pollForm.get('questions').value[i].type=='star'">
+                            <star-rating-comp [starType]="'icon'" [step]="1" [raiting]="2" ngDefaultControl  formControlName="right"></star-rating-comp>
+                            <star-rating value="0" [totalstars]="5" checkedcolor="orange" uncheckedcolor="yellow" size="24px" readonly="false"  (rate)="onRate($event, i)" ngDefaultControl formControlName="name"></star-rating>
+                          </div>
+                          <!--<div *ngIf="pollForm.get('questions').value[i].type=='file'">
+                            <input type="file"  (change)="onFileChange($event, i)">
+                          </div>-->
+                        </div>
+                      </div>
                     </div>
-                <div *ngIf="pollForm.get('questions').value[i].type=='slider'">
-                      <label>{{value}}</label>
-                      <mat-slider [max]="max" [min]="min" [thumbLabel]="thumbLabel" [(ngModel)]="value" formControlName="right" ></mat-slider>
-                    </div>
-                        <div *ngIf="pollForm.get('questions').value[i].type=='star'">
-                      <star-rating-comp [starType]="'icon'" [step]="1" [raiting]="2" ngDefaultControl  formControlName="right"></star-rating-comp>
-                      <star-rating value="5" [totalstars]="5" checkedcolor="orange" uncheckedcolor="yellow" size="24px" readonly="false"  (rate)="onRate($event, i)" ngDefaultControl formControlName="name"></star-rating>
-                    </div>
-                    <!--<div *ngIf="pollForm.get('questions').value[i].type=='file'">
-                      <input type="file"  (change)="onFileChange($event, i)">
-                    </div>-->
                   </div>
                 </div>
+
+
               </div>
+
             </div>
 
             <br>
@@ -62,6 +71,6 @@
   </div>
 
 </form>
-  <button (click)="nextPage()">next page</button>
-  <button (click)="previousPage()">previous page</button>
+  <button [disabled]="currentPage==pages-1" (click)="nextPage()">next page</button>
+  <button [disabled]="currentPage==0" (click)="previousPage()">previous page</button>
 </div>
