@@ -31,13 +31,13 @@ const users: User[] = [{ id: 1, username: 'test', password: 'test', role: 'user'
       questions: [{name: 'q1', type:'radio',page:0, mandatory:true,
                              answers:[{name: 'a', right:'true' ,total:1},
                                       {name: 'b', right: 'false', total: 2}],
-                                        interviewed: [{username: 'anon', answers:[
+                                        interviewed: [{username: 'anon 1', answers:[
                                             {name: 'a', right:'false'},
                                             {name: 'b', right: 'true'}]},
-                                          {username: 'anon', answers:[
+                                          {username: 'anon 2', answers:[
                                               {name: 'a', right:'true'},
                                               {name: 'b', right: 'false'}]},
-                                          {username: 'anon', answers:[
+                                          {username: 'anon 3', answers:[
                                               {name: 'a', right:'false'},
                                               {name: 'b', right: 'true'}]}
                                                     ]},
@@ -48,19 +48,19 @@ const users: User[] = [{ id: 1, username: 'test', password: 'test', role: 'user'
                                        {name: 'c', right: 'true',total:2},
                                        {name: 'd', right: 'false',total:1},
                                        {name: 'e', right: 'true',total:3}],
-                                        interviewed: [{username: 'anon', answers:[
+                                        interviewed: [{username: 'anon 1', answers:[
                                             {name: 'a', right:'false'},
                                             {name: 'b', right: 'true'},
                                             {name: 'c', right: 'true'},
                                             {name: 'd', right: 'false'},
                                             {name: 'e', right: 'true'}]},
-                                          {username: 'anon', answers:[
+                                          {username: 'anon 2', answers:[
                                               {name: 'a', right:'true'},
                                               {name: 'b', right: 'true'},
                                               {name: 'c', right: 'false'},
                                               {name: 'd', right: 'false'},
                                               {name: 'e', right: 'true'}]},
-                                          {username: 'anon', answers:[
+                                          {username: 'anon 3', answers:[
                                               {name: 'a', right:'false'},
                                               {name: 'b', right: 'false'},
                                               {name: 'c', right: 'true'},
@@ -78,7 +78,40 @@ const users: User[] = [{ id: 1, username: 'test', password: 'test', role: 'user'
 
 
       ]}
-  ]
+  ],
+              templates:[ {pollname: 'template2',
+                pages : 3,
+                parameters:[{"name":"anon","status":false},
+                  {"name":"num_q","status":true},
+                  {"name":"num_p","status":false},
+                  {"name":"random_q","status":false},
+                  {"name":"req_star","status":true},
+                  {"name":"indicate","status":true}],
+                reference:'',
+                questions: [{name: '', type:'radio',page:0, mandatory:true,
+                  answers:[{name: '', right:'false' ,total:0},
+                    {name: '', right: 'false', total: 0}],
+                  interviewed: []},
+
+                  {name:'', type:'checkbox', mandatory:true, page:0,
+                    answers:[{name: '', right: 'false',total:0},
+                      {name: '', right: 'false',total:0},
+                      {name: '', right: 'false',total:0},
+                      {name: '', right: 'false',total:0},
+                      {name: '', right: 'false',total:0}],
+                    interviewed: []},
+                  {name: '', type: 'text', page:1, mandatory: false,
+                    answers: [{name: '', right: '',total:0}],
+                    interviewed: []},
+                  {name: '', type: 'slider', page:1, mandatory: false,
+                    answers: [{name: '', right: 0,total:0}],
+                    interviewed: []},
+                  {name: '', type: 'star', page:2, mandatory: false,
+                    answers: [{name: '', right: 0,total:0}],
+                    interviewed: []},
+
+
+                ]}]
   } ,
                               {id: 2, username: 'admin', password: 'admin', role: 'admin', registrationDate: '19.02.1992', polls: []},
                               {id: 3, username: 'user', password: 'user', role: 'user', registrationDate: '19.02.2001', polls: []}];
@@ -117,6 +150,15 @@ export class Backend implements HttpInterceptor{
           return getUserById();
         case url.match(/\/user\/delete\/\d+$/) && method === 'DELETE':
           return deleteUser();
+        case url.match(/\/user\/templates\/\d+$/) && method === 'GET':
+          return getPollTemplates();
+        case url.match(/\/user\/templates\/\d+\/\w+$/) && method === 'GET':
+          return getPollTemplateById();
+        case url.match(/\/user\/templates\/\d+$/) && method === 'POST':
+          return addNewPoll();
+
+
+
 
         case url.match(/\/polls\/\d+$/) && method === 'GET':
           return getPollsById();
@@ -204,6 +246,11 @@ export class Backend implements HttpInterceptor{
 
 
 
+
+
+
+
+
     function getPollsById(){
       let id = idFromUrl();
       return ok(getFromLocalStorage().find(el =>{
@@ -282,6 +329,38 @@ export class Backend implements HttpInterceptor{
       return ok(poll)
     }
 
+
+
+    function getPollTemplates(){
+     let users = getFromLocalStorage();
+     let id = idFromUrl();
+     let templates =[]
+     users.forEach(u=>{
+       if(u.id==id){
+         templates=u.templates
+       }
+     })
+      console.log(templates)
+      return ok(templates)
+    }
+
+
+
+    function  getPollTemplateById(){
+      let id=idFromUrl2();
+      let templateName=stringFromUrl();
+      let template=null;
+      users.forEach(u=>{
+        if(u.id==id){
+          u.templates.forEach(t=>{
+            if(t.pollname==templateName){
+              template=t;
+            }})
+        }
+      })
+       console.log(template)
+      return ok(template)
+    }
 
 
 //todo save total answers

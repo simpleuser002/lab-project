@@ -5,35 +5,90 @@
   <br>
  вопросов  {{poll.questions.length}}  страниц {{allPages}}
   <br>
+  <mat-form-field appearance="fill" *ngIf="resultsForAllQuestions">
+    <mat-label>select question</mat-label>
+    <mat-select [formControl]="questionsShow" multiple>
+      <mat-option *ngFor="let q of questionsShowList" [value]="q" (onSelectionChange)="updateQuestionsShow()">{{q}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill" *ngIf="resultsForSelectedInterviewed">
+    <mat-label>select person</mat-label>
+    <mat-select [formControl]="interviewedShow" multiple>
+      <mat-option *ngFor="let ip of interviewedPeople" [value]="ip" (onSelectionChange)="updateInterviewedShow()">{{ip}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <button [ngStyle]="{'background-color':resultsForAllQuestions?'gray':''}" (click)="getResultsForAllQuestions()">results for all questions</button>
+  <button [ngStyle]="{'background-color':resultsForSelectedInterviewed?'gray':''}" (click)="getResultsForSelectedInterviewed()">results for selected questions</button>
+  <br>
   <mat-tab-group [selectedIndex]="isSelected.value" (selectedIndexChange)="isSelected.setValue($event)" animationDuration="0ms">
     <mat-tab *ngFor="let tab of pages; let t=index" [label]="tab">
       <div *ngFor="let q of poll.questions">
-
         <div *ngIf="tab==q.page">
-          {{q.name}}
-<br>
+          <div *ngIf="resultsForAllQuestions">
+            <div *ngFor="let q1 of questionsShow.value">
+              <div *ngIf="q1=='all'?q:(questionsShow.value.length!=0 && q.name==q1)">
 
-          <div>
-            <div>
-              <div style="display: block">
-                <canvas baseChart
-                        [datasets]="barChartData"
-                        [labels]="barChartLabels"
-                        [options]="barChartOptions"
-                        [legend]="barChartLegend"
-                        [chartType]="barChartType">
-                </canvas>
+                  {{q.name}}
+                  <br>
+
+                  <div *ngIf="q.type=='radio' || q.type=='checkbox' || q.type=='star'">
+                    <div>
+                      <div style="display: block">
+                        <canvas baseChart
+                                [datasets]="barChartData"
+                                [labels]="barChartLabels"
+                                [options]="barChartOptions"
+                                [legend]="barChartLegend"
+                                [chartType]="barChartType">
+                        </canvas>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <div *ngFor="let a of q.answers; let i = index">
+                    Ответ {{i+1}}  ответов {{a.total}}
+                  </div>
+                </div>
               </div>
+
             </div>
-          </div>
 
 
 
-          <div *ngFor="let a of q.answers; let i = index">
-                Ответ {{i+1}}  ответов {{a.total}}
-          </div>
+        <div *ngIf="resultsForSelectedInterviewed">
+          {{q.name}}
+          <br>
+            <div *ngFor="let interv of q.interviewed; let i = index">
+
+            <div *ngFor="let interv1 of interviewedShow.value">
+
+                <div *ngIf="interv.username==interv1">
+                  <div *ngFor="let a of interv.answers">
+                   {{interv.username }}  {{ a.right}}
+                  </div>
+                </div>
+
+            </div>
+
+            </div>
+
         </div>
-      </div>
+
+
+
+
+
+        </div>
+
+        </div>
+
+
+
+
+
 
 
 

@@ -4,6 +4,7 @@ import {Poll} from '../../../models/poll';
 import {FormControl} from '@angular/forms';
 import {ChartDataSets, ChartOptions, ChartType} from 'chart.js';
 import {Label} from 'ng2-charts';
+import {Question} from '../../../models/question';
 
 
 @Component({
@@ -15,11 +16,21 @@ export class PollResultsComponent implements OnInit {
   poll: Poll;
   allPages: number
 
+  questions: Question[]
+
   isSelected=new FormControl(0);
   pages = new Set();
   interviewedPeople= new Set();
   results = new Map();
   interviewedCount=0;
+
+  questionsShow = new FormControl();
+  questionsShowList: string[] = [];
+
+  interviewedShow = new FormControl();
+
+  resultsForAllQuestions: boolean=true;
+  resultsForSelectedInterviewed: boolean=false;
 
   public barChartOptions: ChartOptions = {
     responsive: true,
@@ -38,7 +49,7 @@ export class PollResultsComponent implements OnInit {
   //public barChartPlugins = [pluginDataLabels];
 
   public barChartData: ChartDataSets[] = [
-    { data: [], label: '' }
+    { data: [], label: '', backgroundColor: 'orange' }
   ];
 
 
@@ -48,6 +59,7 @@ export class PollResultsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPollById();
+    this.questionsShowList.push('all')
   }
 
 
@@ -55,29 +67,67 @@ export class PollResultsComponent implements OnInit {
       this.pollService.getPollById(1, 'poll2').subscribe(data=> {
         this.poll = data;
         this.allPages=this.poll.pages;
-        this.poll.questions.forEach(q=>{
-          this.pages.add(q.page)
-          this.calculateAnswers(q.interviewed);
-          console.log(this.pages)
-
-
-          q.answers.forEach(a=>{
-            this.barChartLabels.push(a.name);
-            this.barChartData[0].data.push(a.total);
-          })
-        })
+        this.getQuestionsFromPoll(this.poll.questions)
 
       })
   }
 
+  getQuestionsFromPoll(questions: any){
+   /* this.questionsShow.value.forEach(qs=>{*/
+
+
+    questions.forEach(q=>{
+      this.pages.add(q.page)
+      this.calculateAnswers(q.interviewed);
+      console.log(this.pages)
+
+
+      this.questionsShowList.push(q.name)
+     /* if(this.questionsShow.value.length!=0 && qs==q.name){
+        this.questions.push(q);
+      }*/
+
+
+      q.answers.forEach(a=>{
+        this.barChartLabels.push(a.name);
+        this.barChartData[0].data.push(a.total);
+        /*  this.barChartData.push({data: data.map(item=>item.cool_data)})*/
+      })
+    })
+   /* })*/
+  }
+
   private calculateAnswers(interviewed: any) {
-      if(interviewed.username!='anon'){
-        this.interviewedPeople.add(interviewed.username);
-      }
+
+
+
+
 
 
       interviewed.forEach(i=>{
-
+        this.interviewedPeople.add(i.username);
+        console.log(this.interviewedPeople)
       })
+  }
+
+  updateQuestionsShow() {
+    console.log(this.questionsShow)
+  }
+
+
+
+  getResultsForAllQuestions(){
+    this.resultsForAllQuestions=true;
+    this.resultsForSelectedInterviewed=false;
+  }
+
+
+  getResultsForSelectedInterviewed(){
+    this.resultsForSelectedInterviewed=true;
+    this.resultsForAllQuestions=false;
+  }
+
+  updateInterviewedShow() {
+
   }
 }

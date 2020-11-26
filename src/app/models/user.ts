@@ -8,4 +8,5 @@ export class User {
   role?:string;
   registrationDate?:string;
   polls?:Poll[]
+  templates?:Poll[]
 }

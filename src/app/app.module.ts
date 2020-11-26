@@ -28,6 +28,9 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
 import { PollComponent } from './components/poll/poll/poll.component';
 import { PollResultsComponent } from './components/poll/poll-results/poll-results.component';
 import {ChartsModule} from 'ng2-charts';
+import {MatSelectModule} from '@angular/material/select';
+import { PollTemplateComponent } from './components/poll/poll-template/poll-template.component';
+import { MyPollTemplatesComponent } from './components/poll/my-poll-templates/my-poll-templates.component';
 
 
 @NgModule({
@@ -43,6 +46,8 @@ import {ChartsModule} from 'ng2-charts';
     NewpollComponent,
     PollComponent,
     PollResultsComponent,
+    PollTemplateComponent,
+    MyPollTemplatesComponent,
   ],
     imports: [
         BrowserModule,
@@ -61,7 +66,8 @@ import {ChartsModule} from 'ng2-charts';
         RatingModule,
         MatTabsModule,
         MatProgressBarModule,
-        ChartsModule
+        ChartsModule,
+        MatSelectModule
     ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

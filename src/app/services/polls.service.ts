@@ -33,4 +33,13 @@ export class PollsService {
   setReference(ref: string, name: string, id: number){
     return this.http.post<any>(`${environment.url}/poll/ref/${id}`, {name, ref})
   }
+
+
+  getTemplatesByUserId(id: number){
+    return this.http.get<any>(`${environment.url}/user/templates/${id}`)
+  }
+
+  getTemplateById(id: number, name: string){
+    return this.http.get<any>(`${environment.url}/user/templates/${id}/${name}`)
+  }
 }

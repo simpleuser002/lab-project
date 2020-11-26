@@ -11,6 +11,8 @@ import {MypollsComponent} from './components/poll/mypolls/mypolls.component';
 import {NewpollComponent} from './components/poll/newpoll/newpoll.component';
 import {PollComponent} from './components/poll/poll/poll.component';
 import {PollResultsComponent} from './components/poll/poll-results/poll-results.component';
+import {MyPollTemplatesComponent} from './components/poll/my-poll-templates/my-poll-templates.component';
+import {PollTemplateComponent} from './components/poll/poll-template/poll-template.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent, canActivate: [AuthGuardService]},
@@ -20,7 +22,9 @@ const routes: Routes = [
   {path: 'user/polls', component: MypollsComponent},
   {path: 'user/polls/new', component: NewpollComponent},
   {path: 'poll/ref/:reference', component: PollComponent},
-  {path: 'poll/results/:id/:pollname', component: PollResultsComponent}
+  {path: 'poll/results/:id/:pollname', component: PollResultsComponent},
+  {path: 'user/templates', component: MyPollTemplatesComponent},
+  {path: 'user/templates/:pollname', component: PollTemplateComponent}
 ];
 
 @NgModule({
