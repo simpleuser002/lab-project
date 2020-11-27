@@ -31,6 +31,8 @@ import {ChartsModule} from 'ng2-charts';
 import {MatSelectModule} from '@angular/material/select';
 import { PollTemplateComponent } from './components/poll/poll-template/poll-template.component';
 import { MyPollTemplatesComponent } from './components/poll/my-poll-templates/my-poll-templates.component';
+import { MatInputModule} from '@angular/material/input';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 
 @NgModule({
@@ -49,26 +51,28 @@ import { MyPollTemplatesComponent } from './components/poll/my-poll-templates/my
     PollTemplateComponent,
     MyPollTemplatesComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatToolbarModule,
-        MatDialogModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        MatTableModule,
-        MatButtonModule,
-        MatIconModule,
-        AngularEditorModule,
-        MatSliderModule,
-        RatingModule,
-        MatTabsModule,
-        MatProgressBarModule,
-        ChartsModule,
-        MatSelectModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    AngularEditorModule,
+    MatSliderModule,
+    RatingModule,
+    MatTabsModule,
+    MatProgressBarModule,
+    ChartsModule,
+    MatSelectModule,
+    MatInputModule,
+    MatPaginatorModule,
+  ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     /*{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },*/

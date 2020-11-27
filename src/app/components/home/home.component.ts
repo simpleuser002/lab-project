@@ -24,4 +24,8 @@ export class HomeComponent implements OnInit {
   goToNewPoll() {
     this.router.navigate(['user/polls/new'])
   }
+
+  goToMyTemplates() {
+    this.router.navigate(['user/templates'])
+  }
 }

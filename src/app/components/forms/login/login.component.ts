@@ -3,7 +3,8 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {AuthServiceService} from '../../../services/auth-service.service';
 import {Router} from '@angular/router';
 import {environment} from '../../../../environments/environment';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {RegisterComponent} from '../register/register.component';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,9 @@ export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthServiceService,
               private router: Router,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private dialogRef: MatDialogRef<any>
+              ) {
     this.loginForm = new FormGroup({
       username :  new FormControl(''),
       password : new FormControl('')
@@ -36,7 +39,14 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.formControls.username.value, this.formControls.password.value).subscribe(data => {
       console.log(data);
       this.router.navigate(['/home']);
-      this.dialog.closeAll();
+      this.dialogRef.close();
     });
+  }
+
+  registation() {
+    const registrationForm = this.dialog.open(RegisterComponent,
+      {width: '600px',
+        height: '500px'});
+    this.dialogRef.close();
   }
 }

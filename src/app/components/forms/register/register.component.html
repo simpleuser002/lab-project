@@ -1,1 +1,23 @@
-<p>register works!</p>
+<h1 mat-dialog-title>Registration</h1>
+<mat-dialog-content>
+  <form [formGroup]="registrationForm" >
+    <label>
+      username
+      <input type="text" formControlName="username">
+    </label>
+    <label>
+      email
+      <input type="text" formControlName="email">
+    </label>
+    <label>
+      password
+      <input type="text" formControlName="password">
+    </label>
+    <label>
+      confirm password
+      <input type="text" formControlName="confirmpassword">
+    </label>
+    <button (click)="submit()">submit</button>
+  </form>
+</mat-dialog-content>
+

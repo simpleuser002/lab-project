@@ -9,7 +9,7 @@ import {saveAs} from 'file-saver'
 import {Poll} from '../models/poll';
 
 
-const users: User[] = [{ id: 1, username: 'test', password: 'test', role: 'user', registrationDate: '19.02.2000', polls: [
+const users: User[] = [{ id: 1, username: 'test', email:'test@gmail.com', password: 'test', role: 'user', registrationDate: '19.02.2000', polls: [
     {pollname: 'poll1',
       parameters:[],
       reference:'',
@@ -133,7 +133,7 @@ export class Backend implements HttpInterceptor{
       .pipe(mergeMap(handleRoute))
       // tslint:disable-next-line:max-line-length
       .pipe(materialize()) // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648)
-      .pipe(delay(500))
+      .pipe(delay(200))
       .pipe(dematerialize());
 
     // tslint:disable-next-line:typedef
@@ -141,6 +141,8 @@ export class Backend implements HttpInterceptor{
       switch (true) {
         case url.endsWith('/auth') && method === 'POST':
           return authenticate();
+        case url.endsWith('/registration') && method === 'POST':
+          return registate();
 
         case url.endsWith('/users') && method === 'GET':
           return getUsers();
@@ -188,14 +190,24 @@ export class Backend implements HttpInterceptor{
 
     // tslint:disable-next-line:typedef
     function authenticate() {
-      const { username, password } = body;
-      const user = users.find(x => x.username === username && x.password === password);
+      const { email, password } = body;
+      const user = users.find(x => x.email === email && x.password === password);
       if (!user) { return error('Username or password is incorrect'); }
       return ok({
         id: user.id,
-        username: user.username,
+        email: user.email,
         token: 'fake-jwt-token'
       });
+    }
+
+    function registate(){
+      let users = getFromLocalStorage();
+      let user = body;
+      user.id=getLastId(users)+1;
+      users.push(user)
+      localStorage.setItem('users', JSON.stringify(users))
+      console.log(users);
+      return ok('200')
     }
 
     // tslint:disable-next-line:typedef
@@ -393,6 +405,11 @@ export class Backend implements HttpInterceptor{
 
     function getFromLocalStorage(){
       return JSON.parse(localStorage.getItem('users'));
+    }
+
+
+    function  getLastId(arr){
+      return arr.length;
     }
     // helper functions
 

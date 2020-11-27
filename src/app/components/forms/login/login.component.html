@@ -1,14 +1,15 @@
 <h1 mat-dialog-title>Login</h1>
 <mat-dialog-content>
-  <form [formGroup]="loginForm" (ngSubmit)="login()">
+  <form [formGroup]="loginForm" >
     <label>
-      username
+      email
       <input type="text" formControlName="username">
     </label>
     <label>
       password
       <input type="text" formControlName="password">
     </label>
-    <button>Log in</button>
+    <button (click)="login()">Log in</button>
+    <button (click)="registation()">registration</button>
   </form>
 </mat-dialog-content>

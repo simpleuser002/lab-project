@@ -131,8 +131,8 @@ export class PollTemplateComponent implements OnInit {
 
   initAnswers(){
     return new FormGroup({
-      name: new FormControl('answer'),
-      right: new FormControl('false', Validators.requiredTrue),
+      name: new FormControl(''),
+      right: new FormControl(false, Validators.requiredTrue),
     })
   }
 
