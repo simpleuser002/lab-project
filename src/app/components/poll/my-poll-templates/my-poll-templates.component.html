@@ -1,9 +1,9 @@
-<div *ngFor="let template of templates">
-  {{template.pollname}}
-  <br>
-  questions {{template.questions.length}}
-  <br>
-  pages {{template.pages}}
-  <br>
-  <button (click)="createPollFromTemplate(template.pollname)">create poll</button>
+<div class="template__block" *ngFor="let template of templates">
+  <div class="template__title title">{{template.pollname}}</div>
+
+  <div class="template__label label">questions  {{ template.questions.length}}</div>
+
+  <div class="template__label label">pages {{ template.pages}}</div>
+
+  <button class="template__btn" (click)="createPollFromTemplate(template.pollname)">create poll</button>
 </div>

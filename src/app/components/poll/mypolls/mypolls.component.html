@@ -8,7 +8,7 @@
     <th mat-header-cell *matHeaderCellDef> {{col}}</th>
     <td mat-cell *matCellDef="let element">
      <!-- <span>{{element[col]}}</span>-->
-      <span *ngIf="col!=='questions'">{{element[col]}}</span>
+      <span *ngIf="col!=='questions' && col!='reference'">{{element[col]}}</span>
       <span *ngIf="col=='questions' && element.questions">
       <!--   <span *ngFor="let question of element[col]">
           {{question.answer.length}}
@@ -17,6 +17,9 @@
       </span>
       <span *ngIf="col=='reference'">
            <button (click)="setReference(element.pollname)">generate reference</button>
+        </span>
+      <span *ngIf="col=='results'">
+           <button (click)="goToResults(element.pollname)">results</button>
         </span>
 
   <!--    <span *ngIf="col=='actions'">

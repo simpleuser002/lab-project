@@ -139,7 +139,7 @@ export class PollComponent implements OnInit {
   initAnswers(){
     return new FormGroup({
       name: new FormControl('answer'),
-      right: new FormControl('false', Validators.requiredTrue),
+      right: new FormControl('', Validators.requiredTrue),
     })
   }
 

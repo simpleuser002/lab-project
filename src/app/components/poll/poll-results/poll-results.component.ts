@@ -5,6 +5,9 @@ import {FormControl} from '@angular/forms';
 import {ChartDataSets, ChartOptions, ChartType} from 'chart.js';
 import {Label} from 'ng2-charts';
 import {Question} from '../../../models/question';
+import {AuthServiceService} from '../../../services/auth-service.service';
+import {User} from '../../../models/user';
+import {ActivatedRoute} from '@angular/router';
 
 
 @Component({
@@ -51,11 +54,16 @@ export class PollResultsComponent implements OnInit {
   public barChartData: ChartDataSets[] = [
     { data: [], label: '', backgroundColor: 'orange' }
   ];
+  private currentUser: User;
+  private pollname: any;
 
 
 
 
-  constructor(private pollService: PollsService) { }
+  constructor(private pollService: PollsService, private authService: AuthServiceService, private activateRoute: ActivatedRoute) {
+    this.activateRoute.params.subscribe(params => this.pollname =params['pollname'])
+    this.authService.currentUserObservable.subscribe(data => this.currentUser = data);
+  }
 
   ngOnInit(): void {
     this.getPollById();
@@ -64,7 +72,7 @@ export class PollResultsComponent implements OnInit {
 
 
   getPollById(){
-      this.pollService.getPollById(1, 'poll2').subscribe(data=> {
+      this.pollService.getPollById(this.currentUser.id, this.pollname).subscribe(data=> {
         this.poll = data;
         this.allPages=this.poll.pages;
         this.getQuestionsFromPoll(this.poll.questions)

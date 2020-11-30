@@ -1,13 +1,16 @@
-<mat-toolbar color="accent">
-  <mat-toolbar-row>
-      <span>Lab</span>
-      <div *ngIf="!currentUser">
-        <button (click)="openLoginForm()">Login</button>
-      </div>
-     <div *ngIf="currentUser">
-       {{currentUser.username}}
-       <button (click)="logout()">Logout</button>
-     </div>
-  </mat-toolbar-row>
-</mat-toolbar>
+<div class="nav-bar">
+     <!-- <span>Lab</span>-->
+  <div class="nav-bar__content">
+    <ng-container *ngIf="!currentUser">
+      <label class="nav_bar__title title">about</label>
+      <button mat-stroked-button  (click)="openLoginForm()">Login</button>
+    </ng-container>
+    <ng-container *ngIf="currentUser">
+      <label class="nav_bar__title title">about</label>
+      <label class="nav_bar__title title">{{currentUser.username }}</label>
+      <button mat-stroked-button (click)="logout()">Logout</button>
+    </ng-container>
+  </div>
+
+</div>
 

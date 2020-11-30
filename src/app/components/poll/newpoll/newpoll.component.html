@@ -59,9 +59,11 @@
   <button (click)="addNewPoll()">save poll</button>
 </form>
 -->
+<!--<app-home></app-home>-->
 <button (click)="addTab()">add tab</button>
 
     {{isSelected.value}}
+<div class="poll">
 <form [formGroup]="addPollForm">
   <mat-tab-group [selectedIndex]="isSelected.value" (selectedIndexChange)="isSelected.setValue($event)" animationDuration="0ms">
     <mat-tab *ngFor="let tab of tabs; let t=index" [label]="tab">
@@ -121,44 +123,25 @@
   </div>
 
 
-  <br>
-  <button (click)="addQuestion()">add question</button>
-  <br>
-  <button (click)="addCheckBoxQuestion()">add checkbox question</button>
-  <br>
-  <button (click)="addTextQuestion()">add text question</button>
-  <br>
-  <button (click)="addSlideQuestion()">add slider question</button>
-  <br>
-  <button (click)="addStarQuestion()">add star question</button>
-  <br>
-  <button (click)="addFileQuestion()">add file question</button>
-  <br>
-  <br>
-  <br>
+      <div class="poll__options">
+        <br>
+        <button (click)="addQuestion()">add question</button>
+        <br>
+        <button (click)="addCheckBoxQuestion()">add checkbox question</button>
+        <br>
+        <button (click)="addTextQuestion()">add text question</button>
+        <br>
+        <button (click)="addSlideQuestion()">add slider question</button>
+        <br>
+        <button (click)="addStarQuestion()">add star question</button>
+        <br>
+        <button (click)="addFileQuestion()">add file question</button>
+        <br>
+        <br>
+        <br><br>
+      </div>
 
 
-        <br>
-       <!-- <label>question numbers
-          <input type="checkbox" formControlName="name" value="num_q">
-        </label>
-        <br>
-        <label>page numbers
-          <input type="checkbox" formControlName="name" value="num_p">
-        </label>
-        <br>
-        <label> random qustions
-          <input type="checkbox" formControlName="name" value="rand_q">
-        </label>
-        <br>
-        <label>require stars
-          <input type="checkbox" formControlName="name" value="req_stars">
-        </label>
-        <br>
-        <label> indicator
-          <input type="checkbox" formControlName="name" value="indicator">
-        </label>
-        <br>-->
 
 
       <button (click)="addNewPoll()">save poll</button>
@@ -166,22 +149,25 @@
 
   </mat-tab>
 </mat-tab-group>
-  <div formArrayName="parameters">
-    <div *ngFor="let param of getParameters(addPollForm); let p = index">
-      <div [formGroupName]="p">
-        <label>{{addPollForm.get('parameters').value[p].name}}
-          <input type="checkbox" formControlName="status" (change)="checkForParameters($event)" >
-        </label>
+  <div class="poll__options">
+    <div formArrayName="parameters">
+      <div *ngFor="let param of getParameters(addPollForm); let p = index">
+        <div [formGroupName]="p">
+          <label>{{addPollForm.get('parameters').value[p].name}}
+            <input type="checkbox" formControlName="status" (change)="checkForParameters($event)" >
+          </label>
+        </div>
       </div>
     </div>
   </div>
+
   <div *ngIf="isIndicator==true">
     <mat-progress-bar   mode="determinate" [value]="((isSelected.value+1)*100)/[(tabs.length)]"></mat-progress-bar>
   </div>
 
   </form>
 
-
+</div>
 
 
 

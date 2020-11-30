@@ -5,6 +5,7 @@ import {AuthServiceService} from '../../../services/auth-service.service';
 import {User} from '../../../models/user';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-mypolls',
@@ -15,10 +16,11 @@ export class MypollsComponent implements OnInit, AfterViewInit {
 
 
   polls : MatTableDataSource<Poll>;
-  columns: string[] = ['pollname', 'questions', 'reference'];
+  columns: string[] = ['pollname', 'questions', 'reference', 'results'];
   private currentUser: User;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(private pollService: PollsService, private authService: AuthServiceService) {
+  constructor(private pollService: PollsService, private authService: AuthServiceService,
+              private router: Router) {
     this.authService.currentUserObservable.subscribe(data => this.currentUser = data);
   }
 
@@ -71,4 +73,7 @@ export class MypollsComponent implements OnInit, AfterViewInit {
       this.polls = data
     })
   }*/
+  goToResults(pollname: string) {
+    this.router.navigate(['/poll/results/' + this.currentUser.id + '/' + pollname])
+  }
 }

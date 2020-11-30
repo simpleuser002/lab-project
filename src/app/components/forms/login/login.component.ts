@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
               private dialogRef: MatDialogRef<any>
               ) {
     this.loginForm = new FormGroup({
-      username :  new FormControl(''),
+      email :  new FormControl(''),
       password : new FormControl('')
     });
   }
@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
 
   // tslint:disable-next-line:typedef
   login(){
-    this.authService.login(this.formControls.username.value, this.formControls.password.value).subscribe(data => {
+    this.authService.login(this.formControls.email.value, this.formControls.password.value).subscribe(data => {
       console.log(data);
       this.router.navigate(['/home']);
       this.dialogRef.close();
