@@ -86,29 +86,49 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 }
 
-.login{
+.form{
   display: flex !important;
 }
-.login__content{
+.form__content{
   display: flex !important;
   flex-direction: column;
+  align-items: center;
 }
 
-.login__title{
+.form__title{
   display: flex !important;
   align-items: center;
   justify-content: center;
+  margin-bottom: 40px !important;
 }
 
-.login__input{
+.form__input{
   display: flex !important;
 }
 
-.login_btn{
+.form__form{
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
+.form__btn{
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 140px;
+  height: 40px;
+  align-self: center;
+  margin-top: 50px;
 }
+
+.form__register-btn{
+  border: none;
+  background-color: transparent;
+  width: 70px;
+  color: #4e24f5;
+}
+
 
 .side-bar{
   width: 250px;
@@ -171,9 +191,68 @@ label{
 
 .poll{
   display: flex;
-}
-.poll__options{
-  align-self: flex-end;
-  width: 250px;
+  height: 100%;
 }
 
+.poll__form{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.poll__content{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  margin: 15px;
+}
+
+.poll__options-block{
+  width: 220px;
+  align-items: center;
+}
+
+.poll__types{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.poll__options{
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+
+.poll_title{
+
+}
+
+.options__btn{
+  width: 80%;
+  height: 35px;
+  margin-top: 15px;
+}
+.poll__btn-group{
+  display: flex;
+  flex-direction: row;
+}
+
+.poll__btn{
+ width: 120px;
+  height: 30px;
+  margin: 15px;
+}
+
+
+.page__content{
+  display: flex;
+  height: 100%;
+}
+
+.page__block{
+  width: 100%;
+  margin: 10px;
+}

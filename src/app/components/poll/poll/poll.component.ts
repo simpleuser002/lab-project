@@ -3,9 +3,11 @@ import {PollsService} from '../../../services/polls.service';
 import {Poll} from '../../../models/poll';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Question} from '../../../models/question';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
+import {AuthServiceService} from '../../../services/auth-service.service';
+import {User} from '../../../models/user';
 
 @Component({
   selector: 'app-poll',
@@ -22,6 +24,7 @@ export class PollComponent implements OnInit {
   pollForm: FormGroup;
   ref: string
 
+  isAnon: boolean = false;
   isNumberQuestions: boolean = false;
   isRandomQuestions: boolean  = false;
   isNumberPage: boolean = false;
@@ -84,18 +87,23 @@ export class PollComponent implements OnInit {
       ['fontSize']
     ]
   };
+  private currentUser: User;
 
   constructor(private pollService: PollsService,
-              private activateRoute: ActivatedRoute) {
+              private activateRoute: ActivatedRoute,
+              private authService: AuthServiceService,
+              private router: Router, private route: ActivatedRoute) {
     this.pollForm = new FormGroup({
       pollname: new FormControl(''),
       parameters: new FormArray([]),
       questions: new FormArray([]),
     });
+    this.authService.currentUserObservable.subscribe(data => this.currentUser = data);
     this.activateRoute.params.subscribe(params => this.ref =params['reference'])
   }
 
   ngOnInit(): void {
+    this.checkAnon()
     this.getPoll();
   }
 
@@ -145,7 +153,7 @@ export class PollComponent implements OnInit {
 
   initInterviewed(){
     return new FormGroup({
-      username: new FormControl('anon'),
+      username: new FormControl(this.handlingAnon()),
       answers: new FormArray([])
     })
   }
@@ -153,6 +161,10 @@ export class PollComponent implements OnInit {
   private initParams(array: any) {
       array.forEach((p)=>{
         switch (p.name){
+
+          case 'anon':
+            return  this.isNumberQuestions = p.status == true;
+
           case 'num_q':
             return  this.isNumberQuestions = p.status == true;
 
@@ -242,4 +254,19 @@ export class PollComponent implements OnInit {
     return this.pollForm;
   }
 
+  checkAnon(){
+    if(this.isAnon==false && this.currentUser==null){
+      console.log(this.route)
+      this.router.navigate(['/login'], {relativeTo: this.route});
+    }
+  }
+
+
+  handlingAnon(){
+    if(this.isAnon){
+        return 'anon'
+    }else {
+      return this.currentUser.username;
+    }
+  }
 }

@@ -21,7 +21,7 @@ const users: User[] = [{ id: 1, username: 'test', email:'test@gmail.com', passwo
                               answers:[{name: 'a', total: 0}], interviewed: [] }],},
     {pollname: 'poll2',
       pages : 3,
-      parameters:[{"name":"anon","status":false},
+      parameters:[{"name":"anon","status":true},
                   {"name":"num_q","status":true},
                   {"name":"num_p","status":false},
                   {"name":"random_q","status":false},

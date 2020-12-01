@@ -13,19 +13,5 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  goToUsers(){
-    this.router.navigate(['/users']);
-  }
 
-  goToPolls() {
-    this.router.navigate(['user/polls'])
-  }
-
-  goToNewPoll() {
-    this.router.navigate(['user/polls/new'])
-  }
-
-  goToMyTemplates() {
-    this.router.navigate(['user/templates'])
-  }
 }

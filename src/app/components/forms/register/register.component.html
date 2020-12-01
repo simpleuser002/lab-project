@@ -1,23 +1,31 @@
-<h1 mat-dialog-title>Registration</h1>
-<mat-dialog-content>
-  <form [formGroup]="registrationForm" >
-    <label>
-      username
-      <input type="text" formControlName="username">
-    </label>
-    <label>
-      email
-      <input type="text" formControlName="email">
-    </label>
-    <label>
-      password
-      <input type="text" formControlName="password">
-    </label>
-    <label>
-      confirm password
-      <input type="text" formControlName="confirmpassword">
-    </label>
-    <button (click)="submit()">submit</button>
-  </form>
+<h1 class="form__title" mat-dialog-title>Registration</h1>
+<mat-dialog-content class="form__content">
+
+    <form [formGroup]="registrationForm" class="form__form" >
+      <mat-form-field >
+      <mat-label> username </mat-label>
+        <input matInput type="text" formControlName="username">
+      </mat-form-field>
+
+
+      <mat-form-field >
+      <mat-label>  email </mat-label>
+        <input matInput type="text" formControlName="email">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label> password </mat-label>
+          <input matInput type="text" formControlName="password">
+      </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>confirm password  </mat-label>
+      <input matInput type="text" formControlName="confirmpassword">
+    </mat-form-field>
+
+      <button class="form__btn" (click)="submit()">submit</button>
+    </form>
+
+
 </mat-dialog-content>
 

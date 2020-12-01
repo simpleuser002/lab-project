@@ -14,10 +14,11 @@ import {PollResultsComponent} from './components/poll/poll-results/poll-results.
 import {MyPollTemplatesComponent} from './components/poll/my-poll-templates/my-poll-templates.component';
 import {PollTemplateComponent} from './components/poll/poll-template/poll-template.component';
 import {RegisterComponent} from './components/forms/register/register.component';
+import {LoginformComponent} from './components/forms/login/loginform/loginform.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent, canActivate: [AuthGuardService]},
-  {path: 'login', component: LoginComponent},
+  {path: 'login', component: LoginformComponent},
   {path: 'registration', component: RegisterComponent},
   {path: 'users', component: UsersComponent},
   {path: 'user/edit', component: EditUserComponent},

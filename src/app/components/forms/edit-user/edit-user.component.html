@@ -1,20 +1,22 @@
-<h1 mat-dialog-title>Edit</h1>
-<mat-dialog-content>
-  <div *ngIf="user">
-    <form (ngSubmit)="editUser()">
-      <label>
-        username
-        <input type="text" [(ngModel)]="user.username" name="username" >
-      </label>
-      <label>
-        role
-        <input type="text" [(ngModel)]="user.role" name="role">
-      </label>
-      <label>
-        date of creation
-        <input type="text" [(ngModel)]="user.registrationDate" name="registrationDate">
-      </label>
-      <button>submit</button>
+<h1 class="form__title" mat-dialog-title>Edit</h1>
+<mat-dialog-content >
+  <div *ngIf="user" class="form__content">
+    <form (ngSubmit)="editUser()" class="form__form">
+      <mat-form-field>
+        <mat-label> username</mat-label>
+        <input matInput type="text" [(ngModel)]="user.username" name="username" >
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label> role</mat-label>
+        <input matInput type="text" [(ngModel)]="user.role" name="role" >
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>   date of creation</mat-label>
+        <input matInput type="text" [(ngModel)]="user.registrationDate" name="registrationDate" >
+      </mat-form-field>
+      <button class="form__btn">submit</button>
     </form>
   </div>
 </mat-dialog-content>

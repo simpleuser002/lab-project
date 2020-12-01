@@ -12,6 +12,8 @@ import {Router} from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   currentUser: User;
+  routeQueryParams: string;
+
   constructor(
     public dialog: MatDialog,
     private authService: AuthServiceService,
@@ -24,9 +26,7 @@ export class HeaderComponent implements OnInit {
   }
 
   openLoginForm(): void{
-    const loginForm = this.dialog.open(LoginComponent,
-      {width: '600px',
-              height: '500px'});
+    this.router.navigate(['login']);
   }
 
   openRegisterForm(): void{

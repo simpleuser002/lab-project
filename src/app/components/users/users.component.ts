@@ -34,7 +34,7 @@ export class UsersComponent implements OnInit {
     const loginForm = this.dialog.open(EditUserComponent,
       {data:id,
         width: '600px',
-        height: '500px'});
+        height: '400px'});
       loginForm.afterClosed().subscribe(()=>this.getUsers());
   }
 

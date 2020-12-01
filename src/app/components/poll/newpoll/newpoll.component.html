@@ -60,105 +60,110 @@
 </form>
 -->
 <!--<app-home></app-home>-->
-<button (click)="addTab()">add tab</button>
 
-    {{isSelected.value}}
+<!--    {{isSelected.value}}-->
 <div class="poll">
-<form [formGroup]="addPollForm">
-  <mat-tab-group [selectedIndex]="isSelected.value" (selectedIndexChange)="isSelected.setValue($event)" animationDuration="0ms">
-    <mat-tab *ngFor="let tab of tabs; let t=index" [label]="tab">
-  <label>
-    poll name
-    <input type="text" formControlName="pollname">
-    <div>questions {{getQuestions(addPollForm).length}}</div>
-  </label>
-  <div formArrayName="questions">
-    <div *ngFor="let q of getQuestions(addPollForm); let i = index">
-    <div  *ngIf="isSelected.value==addPollForm.get(['questions', i, 'page']).value">
-      <div [formGroupName]="i">
-        <label *ngIf="addPollForm.get('questions').value[i].type!=''">
-         <span *ngIf="isNumberQuestions==true">{{i + 1}}</span> question
-      <input type="text" formControlName="name"><input type="checkbox" formControlName="mandatory"> mandatory
-        </label>
-        <div formArrayName="answers">
-          <div *ngFor="let a of getAnswers(q); let j = index">
-            <div [formGroupName]="j">
-              <label *ngIf="addPollForm.get('questions').value[i].type=='radio'" >
-                <input type="radio" value="true" formControlName="right" (change)="selected(i,j)" name="right">  answer
-                <br>
-              </label>
-              <label *ngIf="addPollForm.get('questions').value[i].type=='checkbox'">
-                <input type="checkbox" value="true" formControlName="right" >  answer
-              </label>
+  <app-sidebar></app-sidebar>
+<form [formGroup]="addPollForm" class="poll__form">
+  <div class="poll__content">
 
-            <!--  <div *ngIf="clickEdit && !isTextQuestion">
-                <input [type]="isRadio?'radio':'checkbox'" value="true" formControlName="right"> <input type="text" formControlName="name" value="answer {{j}}">
-              </div>-->
-              <div *ngIf="addPollForm.get('questions').value[i].type=='text'">
-                <angular-editor id="editor1" formControlName="right" [config]="editorConfig"></angular-editor>
+    <label class="title">
+      poll name
+      <input type="text" formControlName="pollname">
+    </label>
+
+    <div>questions {{getQuestions(addPollForm).length}}</div>
+    <div class="poll__btn-group">
+      <button class="poll__btn" (click)="addTab()">add tab</button>
+      <button class="poll__btn"   (click)="savePoll()">save poll</button>
+      <button class="poll__btn"   (click)="saveAsTemplate()">save as template</button>
+    </div>
+
+
+
+    <mat-tab-group [selectedIndex]="isSelected.value" (selectedIndexChange)="isSelected.setValue($event)" animationDuration="0ms">
+      <mat-tab *ngFor="let tab of tabs; let t=index" [label]="tab">
+
+        <div formArrayName="questions">
+          <div *ngFor="let q of getQuestions(addPollForm); let i = index">
+            <div  *ngIf="isSelected.value==addPollForm.get(['questions', i, 'page']).value">
+              <div [formGroupName]="i">
+                <label *ngIf="addPollForm.get('questions').value[i].type!=''">
+                  <span *ngIf="isNumberQuestions==true">{{i + 1}}</span> question
+                  <input type="text" formControlName="name"><input type="checkbox" formControlName="mandatory"> mandatory
+                </label>
+                <div formArrayName="answers">
+                  <div *ngFor="let a of getAnswers(q); let j = index">
+                    <div [formGroupName]="j">
+                      <label *ngIf="addPollForm.get('questions').value[i].type=='radio'" >
+                        <input type="radio" value="true" formControlName="right" (change)="selected(i,j)" name="right">  answer
+                        <br>
+                      </label>
+                      <label *ngIf="addPollForm.get('questions').value[i].type=='checkbox'">
+                        <input type="checkbox" value="true" formControlName="right" >  answer
+                      </label>
+
+                      <!--  <div *ngIf="clickEdit && !isTextQuestion">
+                          <input [type]="isRadio?'radio':'checkbox'" value="true" formControlName="right"> <input type="text" formControlName="name" value="answer {{j}}">
+                        </div>-->
+                      <div *ngIf="addPollForm.get('questions').value[i].type=='text'">
+                        <angular-editor id="editor1" formControlName="right" [config]="editorConfig"></angular-editor>
+                      </div>
+                      <div *ngIf="addPollForm.get('questions').value[i].type=='slider'">
+                        <label>{{value}}</label>
+                        <mat-slider [max]="max" [min]="min" [thumbLabel]="thumbLabel" [(ngModel)]="value" formControlName="right" ></mat-slider>
+                      </div>
+                      <div *ngIf="addPollForm.get('questions').value[i].type=='star'">
+                        <star-rating-comp [starType]="'icon'" [step]="1" [raiting]="2" ngDefaultControl  formControlName="right"></star-rating-comp>
+                        <star-rating value="5" [totalstars]="5" checkedcolor="orange" uncheckedcolor="yellow" size="24px" readonly="false"  (rate)="onRate($event, i)" ngDefaultControl formControlName="name"></star-rating>
+                      </div>
+                      <div *ngIf="addPollForm.get('questions').value[i].type=='file'">
+                        <input type="file"  (change)="onFileChange($event, i)">
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div *ngIf="addPollForm.get('questions').value[i].type=='slider'">
-                <label>{{value}}</label>
-                <mat-slider [max]="max" [min]="min" [thumbLabel]="thumbLabel" [(ngModel)]="value" formControlName="right" ></mat-slider>
-              </div>
-              <div *ngIf="addPollForm.get('questions').value[i].type=='star'">
-              <star-rating-comp [starType]="'icon'" [step]="1" [raiting]="2" ngDefaultControl  formControlName="right"></star-rating-comp>
-                <star-rating value="5" [totalstars]="5" checkedcolor="orange" uncheckedcolor="yellow" size="24px" readonly="false"  (rate)="onRate($event, i)" ngDefaultControl formControlName="name"></star-rating>
-              </div>
-              <div *ngIf="addPollForm.get('questions').value[i].type=='file'">
-               <input type="file"  (change)="onFileChange($event, i)">
-              </div>
+
+              <button (click)="addAnswer(i)">add answer</button>
+
+              <br>
+              <br>
             </div>
           </div>
         </div>
-      </div>
-
-
-      <button (click)="addAnswer(i)">add answer</button>
-
-      <br>
-      <br>
-    </div>
-    </div>
+        <button class="poll__btn"  [disabled]="tab.length==1" (click)="removeTab(t)">delete tab</button>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 
 
-      <div class="poll__options">
-        <br>
-        <button (click)="addQuestion()">add question</button>
-        <br>
-        <button (click)="addCheckBoxQuestion()">add checkbox question</button>
-        <br>
-        <button (click)="addTextQuestion()">add text question</button>
-        <br>
-        <button (click)="addSlideQuestion()">add slider question</button>
-        <br>
-        <button (click)="addStarQuestion()">add star question</button>
-        <br>
-        <button (click)="addFileQuestion()">add file question</button>
-        <br>
-        <br>
-        <br><br>
-      </div>
+  <div class="poll__options-block">
+    <div class="poll__types">
+      <label class="title">Questions type</label>
+      <button class="options__btn" (click)="addQuestion()">add question</button>
 
+      <button class="options__btn" (click)="addCheckBoxQuestion()">add checkbox question</button>
 
+      <button class="options__btn" (click)="addTextQuestion()">add text question</button>
 
+      <button class="options__btn" (click)="addSlideQuestion()">add slider question</button>
 
-      <button (click)="addNewPoll()">save poll</button>
-      <button [disabled]="tab.length==1" (click)="removeTab(t)">delete tab</button>
+      <button class="options__btn" (click)="addStarQuestion()">add star question</button>
 
-  </mat-tab>
-</mat-tab-group>
-  <div class="poll__options">
-    <div formArrayName="parameters">
-      <div *ngFor="let param of getParameters(addPollForm); let p = index">
-        <div [formGroupName]="p">
-          <label>{{addPollForm.get('parameters').value[p].name}}
-            <input type="checkbox" formControlName="status" (change)="checkForParameters($event)" >
-          </label>
+      <button class="options__btn" (click)="addFileQuestion()">add file question</button>
+    </div>
+    <div class="poll__options">
+      <div formArrayName="parameters">
+        <label class="title">Parameters</label>
+        <div *ngFor="let param of getParameters(addPollForm); let p = index">
+          <div [formGroupName]="p">
+              <input type="checkbox" formControlName="status" (change)="checkForParameters($event)" >
+              <label>{{addPollForm.get('parameters').value[p].name}}</label>
+          </div>
         </div>
       </div>
-    </div>
+  </div>
   </div>
 
   <div *ngIf="isIndicator==true">

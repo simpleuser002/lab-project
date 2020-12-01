@@ -208,7 +208,7 @@ export class NewpollComponent implements OnInit {
     return form.controls.parameters.controls;
   }
 
-  addNewPoll(){
+  savePoll(){
     console.log(this.formControls.value)
     this.addPollForm.get('pages').setValue(this.tabs.length)
     this.pollService.addNewPoll(this.formControls.value, 3).subscribe();
@@ -361,5 +361,11 @@ this.isNumberQuestions=true;
        }
      })
   }
+
+
+  saveAsTemplate(){
+
+  }
+
 
 }

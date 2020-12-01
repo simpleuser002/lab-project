@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { LoginComponent } from './components/forms/login/login.component';
 import { RegisterComponent } from './components/forms/register/register.component';
-import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {fakeBackendProvider} from './helpers/backend';
 import {JwtInterceptor} from './helpers/jwt-interceptor';
@@ -33,6 +33,8 @@ import { PollTemplateComponent } from './components/poll/poll-template/poll-temp
 import { MyPollTemplatesComponent } from './components/poll/my-poll-templates/my-poll-templates.component';
 import { MatInputModule} from '@angular/material/input';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { LoginformComponent } from './components/forms/login/loginform/loginform.component';
 
 
 @NgModule({
@@ -50,6 +52,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     PollResultsComponent,
     PollTemplateComponent,
     MyPollTemplatesComponent,
+    SidebarComponent,
+    LoginformComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,7 +82,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     /*{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },*/
 
     // provider used to create fake backend
-    fakeBackendProvider],
+    fakeBackendProvider,
+    {provide:MatDialogRef, useValue:{}}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

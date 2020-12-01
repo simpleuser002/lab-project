@@ -7,7 +7,7 @@
     </ng-container>
     <ng-container *ngIf="currentUser">
       <label class="nav_bar__title title">about</label>
-      <label class="nav_bar__title title">{{currentUser.username }}</label>
+      <label class="nav_bar__title title">Hi, {{ currentUser.username }}</label>
       <button mat-stroked-button (click)="logout()">Logout</button>
     </ng-container>
   </div>
