@@ -340,8 +340,8 @@ export class NewpollComponent implements OnInit {
 
   checkForParameters(event: Event){
 
-this.isNumberQuestions=true;
-     this.addPollForm.get('parameters').value.forEach(p=> {
+      this.isNumberQuestions=true;
+      this.addPollForm.get('parameters').value.forEach(p=> {
        console.log(p.status)
        switch (p.name) {
          case 'num_q':

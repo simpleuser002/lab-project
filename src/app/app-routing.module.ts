@@ -20,14 +20,14 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent, canActivate: [AuthGuardService]},
   {path: 'login', component: LoginformComponent},
   {path: 'registration', component: RegisterComponent},
-  {path: 'users', component: UsersComponent},
-  {path: 'user/edit', component: EditUserComponent},
-  {path: 'user/polls', component: MypollsComponent},
-  {path: 'user/polls/new', component: NewpollComponent},
+  {path: 'users', component: UsersComponent, canActivate: [AuthGuardService]},
+  {path: 'user/edit', component: EditUserComponent, canActivate: [AuthGuardService]},
+  {path: 'user/polls', component: MypollsComponent, canActivate: [AuthGuardService]},
+  {path: 'user/polls/new', component: NewpollComponent, canActivate: [AuthGuardService]},
   {path: 'poll/ref/:reference', component: PollComponent},
-  {path: 'poll/results/:id/:pollname', component: PollResultsComponent},
-  {path: 'user/templates', component: MyPollTemplatesComponent},
-  {path: 'user/templates/:pollname', component: PollTemplateComponent}
+  {path: 'poll/results/:id/:pollname', component: PollResultsComponent, canActivate: [AuthGuardService]},
+  {path: 'user/templates', component: MyPollTemplatesComponent, canActivate: [AuthGuardService]},
+  {path: 'user/templates/:pollname', component: PollTemplateComponent, canActivate: [AuthGuardService]}
 ];
 
 @NgModule({

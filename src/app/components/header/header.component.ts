@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
   }
 
   openLoginForm(): void{
-    this.router.navigate(['login']);
+    this.router.navigate(['/login']);
   }
 
   openRegisterForm(): void{

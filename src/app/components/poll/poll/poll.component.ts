@@ -257,7 +257,7 @@ export class PollComponent implements OnInit {
   checkAnon(){
     if(this.isAnon==false && this.currentUser==null){
       console.log(this.route)
-      this.router.navigate(['/login'], {relativeTo: this.route});
+      this.router.navigate(['/login']);
     }
   }
 
