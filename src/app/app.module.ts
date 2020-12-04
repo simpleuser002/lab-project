@@ -35,6 +35,7 @@ import { MatInputModule} from '@angular/material/input';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { LoginformComponent } from './components/forms/login/loginform/loginform.component';
+import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 
 
 @NgModule({
@@ -83,7 +84,9 @@ import { LoginformComponent } from './components/forms/login/loginform/loginform
 
     // provider used to create fake backend
     fakeBackendProvider,
-    {provide:MatDialogRef, useValue:{}}],
+    {provide:MatDialogRef, useValue:{}},
+
+     ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -7,6 +7,8 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {RegisterComponent} from '../register/register.component';
 import {filter, pairwise} from 'rxjs/operators';
 
+import {RouterServiceService} from '../../../services/router-service.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,20 +16,20 @@ import {filter, pairwise} from 'rxjs/operators';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  private previousURL: string;
 
 
   constructor(private authService: AuthServiceService,
               private router: Router,
               private dialog: MatDialog,
-              private dialogRef: MatDialogRef<any>
+              private dialogRef: MatDialogRef<any>,
+              private routerService: RouterServiceService
               ) {
     this.loginForm = new FormGroup({
       email :  new FormControl(''),
       password : new FormControl('')
     });
-
-
-  }
+     }
 
   ngOnInit() {
 
@@ -43,7 +45,7 @@ export class LoginComponent implements OnInit {
   login(){
     this.authService.login(this.formControls.email.value, this.formControls.password.value).subscribe(data => {
       console.log(data);
-      this.router.navigate(['/home']);
+     //this.router.navigate(['']);
       this.dialogRef.close();
     });
   }

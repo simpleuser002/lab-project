@@ -13,5 +13,6 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
+    array = [ {name: 'ff', status:'sdsad'},
+      {name: 'jhjk', status:'dsssss'}]
 }
