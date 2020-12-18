@@ -5,7 +5,7 @@ import {FormControl} from '@angular/forms';
 import {ChartDataSets, ChartOptions, ChartType} from 'chart.js';
 import {Label} from 'ng2-charts';
 import {Question} from '../../../models/question';
-import {AuthServiceService} from '../../../services/auth-service.service';
+import {AuthService} from '../../../services/auth.service';
 import {User} from '../../../models/user';
 import {ActivatedRoute} from '@angular/router';
 
@@ -60,7 +60,7 @@ export class PollResultsComponent implements OnInit {
 
 
 
-  constructor(private pollService: PollsService, private authService: AuthServiceService, private activateRoute: ActivatedRoute) {
+  constructor(private pollService: PollsService, private authService: AuthService, private activateRoute: ActivatedRoute) {
     this.activateRoute.params.subscribe(params => this.pollname =params['pollname'])
     this.authService.currentUserObservable.subscribe(data => this.currentUser = data);
   }

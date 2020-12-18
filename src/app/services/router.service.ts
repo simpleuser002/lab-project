@@ -5,7 +5,7 @@ import {filter, pairwise} from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class RouterServiceService {
+export class RouterService {
   private previousURL: string;
 
   constructor(private router: Router) {

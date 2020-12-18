@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {PollsService} from '../../../services/polls.service';
 import {User} from '../../../models/user';
-import {AuthServiceService} from '../../../services/auth-service.service';
+import {AuthService} from '../../../services/auth.service';
 import {Poll} from '../../../models/poll';
 import {Router} from '@angular/router';
 
@@ -15,7 +15,7 @@ export class MyPollTemplatesComponent implements OnInit {
    templates: Poll[];
 
   constructor(private pollService: PollsService,
-              private authService: AuthServiceService,
+              private authService: AuthService,
               private router: Router) {
     this.authService.currentUserObservable.subscribe(data => this.currentUser = data);
   }

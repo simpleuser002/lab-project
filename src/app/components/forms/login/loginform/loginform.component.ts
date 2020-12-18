@@ -3,7 +3,7 @@ import {LoginComponent} from '../login.component';
 import {MatDialog} from '@angular/material/dialog';
 import {filter, pairwise} from 'rxjs/operators';
 import {NavigationEnd, Router, RoutesRecognized} from '@angular/router';
-import {RouterServiceService} from '../../../../services/router-service.service';
+import {RouterService} from '../../../../services/router.service';
 import {Location} from '@angular/common';
 
 @Component({
@@ -16,7 +16,7 @@ export class LoginformComponent implements OnInit {
 
   constructor(private dialog: MatDialog,
               private router: Router,
-              private routerService: RouterServiceService,
+              private routerService: RouterService,
               private location: Location) {
     this.openLoginForm();
   }

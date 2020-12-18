@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {PollsService} from '../../../services/polls.service';
-import {AuthServiceService} from '../../../services/auth-service.service';
+import {AuthService} from '../../../services/auth.service';
 import {User} from '../../../models/user';
 import {Poll} from '../../../models/poll';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -82,7 +82,7 @@ export class PollTemplateComponent implements OnInit {
 
   constructor(private activateRoute: ActivatedRoute,
               private pollService: PollsService,
-              private authService: AuthServiceService) {
+              private authService: AuthService) {
     this.activateRoute.params.subscribe(params => this.templateName =params['pollname']);
     this.authService.currentUserObservable.subscribe(data => this.currentUser = data);
 

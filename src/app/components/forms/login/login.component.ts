@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {AuthServiceService} from '../../../services/auth-service.service';
+import {AuthService} from '../../../services/auth.service';
 import {NavigationEnd, Router, RoutesRecognized} from '@angular/router';
 import {environment} from '../../../../environments/environment';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {RegisterComponent} from '../register/register.component';
 import {filter, pairwise} from 'rxjs/operators';
 
-import {RouterServiceService} from '../../../services/router-service.service';
+import {RouterService} from '../../../services/router.service';
 
 @Component({
   selector: 'app-login',
@@ -19,11 +19,11 @@ export class LoginComponent implements OnInit {
   private previousURL: string;
 
 
-  constructor(private authService: AuthServiceService,
+  constructor(private authService: AuthService,
               private router: Router,
               private dialog: MatDialog,
               private dialogRef: MatDialogRef<any>,
-              private routerService: RouterServiceService
+              private routerService: RouterService
               ) {
     this.loginForm = new FormGroup({
       email :  new FormControl(''),

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from '../../models/user';
-import {UserServiceService} from '../../services/user-service.service';
+import {UserService} from '../../services/user.service';
 import {first} from 'rxjs/operators';
 import {LoginComponent} from '../forms/login/login.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
@@ -16,7 +16,7 @@ export class UsersComponent implements OnInit {
   users: User[];
   columns: string[] = ['username', 'password', 'role', 'registrationDate','polls', 'actions'];
 
-  constructor(private userService: UserServiceService,
+  constructor(private userService: UserService,
               private dialog: MatDialog) {
   }
 

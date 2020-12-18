@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {AuthServiceService} from '../../../services/auth-service.service';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +13,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(private dialog:MatDialog,
     private matdialogRef: MatDialogRef<any>,
-              private authService: AuthServiceService) {
+              private authService: AuthService) {
     this.registrationForm = new FormGroup({
       username :  new FormControl(''),
       email :  new FormControl(''),

@@ -6,13 +6,15 @@ import {Question} from '../../../models/question';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
-import {AuthServiceService} from '../../../services/auth-service.service';
+import {AuthService} from '../../../services/auth.service';
 import {User} from '../../../models/user';
+import {editorConfig} from '../../../mock/editorConfigData';
 
 @Component({
   selector: 'app-poll',
   templateUrl: './poll.component.html',
-  styleUrls: ['./poll.component.sass']
+  styleUrls: ['./poll.component.sass'],
+  providers:[PollsService, AuthService, ActivatedRoute ]
 })
 export class PollComponent implements OnInit {
   poll: Poll;
@@ -42,56 +44,12 @@ export class PollComponent implements OnInit {
   pages:number;
 
 
-  editorConfig: AngularEditorConfig = {
-    editable: true,
-    spellcheck: true,
-    height: 'auto',
-    minHeight: '0',
-    maxHeight: 'auto',
-    width: 'auto',
-    minWidth: '0',
-    translate: 'yes',
-    enableToolbar: true,
-    showToolbar: true,
-    placeholder: 'Enter text here...',
-    defaultParagraphSeparator: '',
-    defaultFontName: '',
-    defaultFontSize: '',
-    fonts: [
-      {class: 'arial', name: 'Arial'},
-      {class: 'times-new-roman', name: 'Times New Roman'},
-      {class: 'calibri', name: 'Calibri'},
-      {class: 'comic-sans-ms', name: 'Comic Sans MS'}
-    ],
-    customClasses: [
-      {
-        name: 'quote',
-        class: 'quote',
-      },
-      {
-        name: 'redText',
-        class: 'redText'
-      },
-      {
-        name: 'titleText',
-        class: 'titleText',
-        tag: 'h1',
-      },
-    ],
-    uploadUrl: 'v1/image',
-    uploadWithCredentials: false,
-    sanitize: true,
-    toolbarPosition: 'top',
-    toolbarHiddenButtons: [
-      ['bold', 'italic'],
-      ['fontSize']
-    ]
-  };
+  editorConfig: AngularEditorConfig = editorConfig;
   private currentUser: User;
 
   constructor(private pollService: PollsService,
               private activateRoute: ActivatedRoute,
-              private authService: AuthServiceService,
+              private authService: AuthService,
               private router: Router, private route: ActivatedRoute) {
     this.pollForm = new FormGroup({
       pollname: new FormControl(''),

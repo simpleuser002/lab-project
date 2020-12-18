@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {UserServiceService} from '../../../services/user-service.service';
+import {UserService} from '../../../services/user.service';
 import {User} from '../../../models/user';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {FormControl, FormGroup} from '@angular/forms';
@@ -14,7 +14,7 @@ export class EditUserComponent implements OnInit {
   user: User;
 
 
-  constructor(private userService: UserServiceService,
+  constructor(private userService: UserService,
               private dialog: MatDialogRef<any>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
 

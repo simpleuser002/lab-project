@@ -1,7 +1,7 @@
 import {AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {PollsService} from '../../../services/polls.service';
 import {Poll} from '../../../models/poll';
-import {AuthServiceService} from '../../../services/auth-service.service';
+import {AuthService} from '../../../services/auth.service';
 import {User} from '../../../models/user';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
@@ -12,33 +12,30 @@ import {Router} from '@angular/router';
   templateUrl: './mypolls.component.html',
   styleUrls: ['./mypolls.component.sass']
 })
-export class MypollsComponent implements OnInit, AfterViewInit {
+export class MypollsComponent implements OnInit {
 
 
-  polls : MatTableDataSource<Poll>;
+  polls : Poll[];
+  matPolls: MatTableDataSource<any>
   columns: string[] = ['pollname', 'questions', 'reference', 'results'];
   private currentUser: User;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(private pollService: PollsService, private authService: AuthServiceService,
+  constructor(private pollService: PollsService, private authService: AuthService,
               private router: Router) {
     this.authService.currentUserObservable.subscribe(data => this.currentUser = data);
   }
 
   ngOnInit(): void {
     this.getPollsById();
-    this.polls.paginator = this.paginator;
-  }
 
-  ngAfterViewInit() {
-  /*  this.polls.paginator = this.paginator;
-    console.log(this.polls)*/
   }
 
   getPollsById(){
      this.pollService.getAllPollsById(String(this.currentUser.id)).subscribe(data => {
        console.log(data);
        this.polls = data
-
+        this.matPolls=new MatTableDataSource<any>(this.polls)
+       this.matPolls.paginator = this.paginator;
      console.log(this.polls)});
   }
 
@@ -60,11 +57,11 @@ export class MypollsComponent implements OnInit, AfterViewInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     console.log(filterValue)
-    this.polls.filter = filterValue.trim().toLowerCase();
+    this.matPolls.filter = filterValue.trim().toLowerCase();
     console.log(this.polls)
 
-    if (this.polls.paginator) {
-      this.polls.paginator.firstPage();
+    if (this.matPolls.paginator) {
+      this.matPolls.paginator.firstPage();
     }
   }
   /*onPageFired(event){
