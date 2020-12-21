@@ -5,6 +5,7 @@ import {first} from 'rxjs/operators';
 import {LoginComponent} from '../forms/login/login.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {EditUserComponent} from '../forms/edit-user/edit-user.component';
+import {DialogComponent} from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-users',
@@ -32,9 +33,10 @@ export class UsersComponent implements OnInit {
 
   openEditForm(id: string): void{
     const loginForm = this.dialog.open(EditUserComponent,
-      {data:id,
-        width: '600px',
-        height: '400px'});
+      {data:{id: id,
+                    title: 'Login'},
+                    width: '600px',
+                    height: '400px'});
       loginForm.afterClosed().subscribe(()=>this.getUsers());
   }
 

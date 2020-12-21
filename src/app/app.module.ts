@@ -36,6 +36,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { LoginformComponent } from './components/forms/login/loginform/loginform.component';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common'
     MyPollTemplatesComponent,
     SidebarComponent,
     LoginformComponent,
+    DialogComponent,
   ],
   imports: [
     BrowserModule,

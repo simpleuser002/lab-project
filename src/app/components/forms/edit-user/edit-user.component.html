@@ -1,6 +1,6 @@
-<h1 class="form__title" mat-dialog-title>Edit</h1>
-<mat-dialog-content >
-  <div *ngIf="user" class="form__content">
+<h1 class="form__title" mat-dialog-title>{{data.title}}</h1>
+<mat-dialog-content>
+<div *ngIf="user" class="form__content">
     <form (ngSubmit)="editUser()" class="form__form">
       <mat-form-field>
         <mat-label> username</mat-label>
@@ -20,13 +20,4 @@
     </form>
   </div>
 </mat-dialog-content>
-
-
-<!--<div *ngIf="user">
-  {{user.id}}
-  {{user.username}}
-  {{user.role}}
-  {{user.registrationDate}}
-</div>-->
-
 
